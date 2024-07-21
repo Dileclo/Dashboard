@@ -60,8 +60,8 @@ onMounted(() => {
     fetchPeopleByDate();
 })
 
-watch(date, () => {
-    fetchPeopleByDate();
+watch(date, async () => {
+    await fetchPeopleByDate();
 })
 
 const formattedDate = computed(() => {
