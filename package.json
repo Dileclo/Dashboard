@@ -1,0 +1,29 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxt/ui": "^2.17.0",
+    "dayjs-nuxt": "^2.1.9",
+    "nuxt": "^3.12.3"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.5.1",
+    "axios": "^1.7.2",
+    "date-fns": "^3.6.0",
+    "dayjs": "^1.11.12",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.1",
+    "pinia": "^2.1.7",
+    "v-calendar": "^3.1.2",
+    "yup": "^1.4.0"
+  }
+}
