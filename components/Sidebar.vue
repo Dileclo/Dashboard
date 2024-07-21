@@ -16,7 +16,6 @@
             <UInput icon="i-heroicons-magnifying-glass-20-solid" class="mb-4" size="sm" color="white" :trailing="false"
                 placeholder="Поиск..." />
             <UVerticalNavigation :links="links" />
-            <UVerticalNavigation :links="links" class="mt-10" />
         </div>
     </div>
 </template>
