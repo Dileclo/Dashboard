@@ -9,22 +9,20 @@
             </div>
         </template>
     </Navbar>
-    <UTable :loading="pending" :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"
-        :progress="{ color: 'primary', animation: 'carousel' }" show-indexes :rows="people" :columns="columns">
+    <UTable show-indexes :rows="people" :columns="columns">
         <template #actions-data="{ row }">
             <div>
-                <UCheckbox name="notifications" :modelValue="row.is_present"
-                    @update:modelValue="value => toggleAttendance(row, value)" />
+                <USelect v-model="row.hoursWorked" :options="[0, 4, 8]" @change="() => updateHoursWorked(row)" />
             </div>
         </template>
     </UTable>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
-import useDayjs from 'dayjs'
-import 'dayjs/locale/ru'
-import { useUserStore } from '~/stores/users'
+import { ref, computed, onMounted, watch } from 'vue';
+import useDayjs from 'dayjs';
+import 'dayjs/locale/ru';
+import { useUserStore } from '~/stores/users';
 
 const usersStore = useUserStore();
 const dayjs = useDayjs;
@@ -33,60 +31,56 @@ dayjs.locale('ru');
 const date = ref(dayjs());
 
 const columns = [
-    {
-        key: 'fullname',
-        label: 'ФИО'
-    },
-    {
-        key: 'actions',
-        label: 'Действия'
-    }
+    { key: 'fullname', label: 'ФИО' },
+    { key: 'actions', label: 'Действия' }
 ];
 
-const { data: people, pending, refresh } = await useLazyAsyncData('people', () => {
+const { data: people, pending, refresh } = await useLazyAsyncData('people', async () => {
     const formattedDateForAPI = date.value.format('YYYY-MM-DD');
     return $fetch('/api/users/get_users_by_date', {
         method: 'POST',
         body: JSON.stringify({ date: formattedDateForAPI })
     }).then(response => response.map(person => ({
         ...person,
-        is_present: person.is_present ? true : false
+        hoursWorked: person.hoursWorked || 0
     })));
 });
 
-onMounted(() => {
-    refresh();
-})
+onMounted(async () => {
+    await refresh();
+});
 
 watch(date, async () => {
     await refresh();
-})
+});
 
-const formattedDate = computed(() => {
-    return date.value.format('DD MMM YYYY')
-})
+const formattedDate = computed(() => date.value.format('DD MMM YYYY'));
 
-const addDay = () => {
-    date.value = date.value.add(1, 'day')
-}
+const addDay = async () => {
+    date.value = date.value.add(1, 'day');
+    await refresh();
+};
 
-const subtractDay = () => {
-    date.value = date.value.subtract(1, 'day')
-}
+const subtractDay = async () => {
+    date.value = date.value.subtract(1, 'day');
+    await refresh();
+};
 
 const today = () => {
-    date.value = dayjs()
-}
+    date.value = dayjs();
+};
 
-const toggleAttendance = async (row, value) => {
+const updateHoursWorked = async (row) => {
     const formattedDateForAPI = date.value.format('YYYY-MM-DD');
-    await $fetch("/api/users/update_attendance", {
+    await $fetch("/api/users/update_hours_worked", {
         method: "POST",
-        body: {
+        body: JSON.stringify({
             row: row,
-            value: value,
+            hoursWorked: row.hoursWorked,
             date: formattedDateForAPI
-        }
-    })
-}
+        })
+    });
+    
+    await refresh(); // Обновляем данные после изменения
+};
 </script>

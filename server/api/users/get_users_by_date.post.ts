@@ -1,30 +1,26 @@
 import { MongoDBclient, users, attendanse } from "~/server/mongo"
 
 export default defineEventHandler(async (event) => {
-    await MongoDBclient.connect()
-    const body = await readBody(event)
+    await MongoDBclient.connect();
+    const body = await readBody(event);
 
     try {
-        const userList = await users.find({}).toArray()
-        await MongoDBclient.close()
-        await MongoDBclient.connect()
-
-        const attendanceList = await attendanse.find({ 'date': body.date }).toArray()
-        await MongoDBclient.close()
+        const userList = await users.find({}).toArray();
+        const attendanceList = await attendanse.find({ date: body.date }).toArray();
 
         const combinedData = userList.map(user => {
-            const userAttendance = attendanceList.find(att => att.phone.toString() === user.phone.toString())
+            const userAttendance = attendanceList.find(att => att.phone.toString() === user.phone.toString());
             return {
                 ...user,
-                is_present: userAttendance ? userAttendance.is_present : false
-            }
+                hoursWorked: userAttendance ? userAttendance.hoursWorked : 0
+            };
+        });
 
-        })
-        return combinedData
+        return combinedData;
     } catch (e) {
-        console.error(e)
+        console.error(e);
+        throw createError({ statusCode: 500, statusMessage: "Internal Server Error" });
     } finally {
-        await MongoDBclient.close()
-
+        await MongoDBclient.close();
     }
-})
+});
