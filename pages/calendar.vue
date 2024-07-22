@@ -9,7 +9,8 @@
             </div>
         </template>
     </Navbar>
-    <UTable show-indexes :rows="people" :columns="columns">
+    <UTable :loading="pending" :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"
+        :progress="{ color: 'primary', animation: 'carousel' }" show-indexes :rows="people" :columns="columns">
         <template #actions-data="{ row }">
             <div>
                 <UCheckbox name="notifications" :modelValue="row.is_present"
@@ -42,26 +43,23 @@ const columns = [
     }
 ];
 
-const people = ref([])
-
-const fetchPeopleByDate = async () => {
+const { data: people, pending, refresh } = await useLazyAsyncData('people', () => {
     const formattedDateForAPI = date.value.format('YYYY-MM-DD');
-    const response = await $fetch('/api/users/get_users_by_date', {
+    return $fetch('/api/users/get_users_by_date', {
         method: 'POST',
         body: JSON.stringify({ date: formattedDateForAPI })
-    });
-    people.value = response.map(person => ({
+    }).then(response => response.map(person => ({
         ...person,
         is_present: person.is_present ? true : false
-    }));
-};
+    })));
+});
 
 onMounted(() => {
-    fetchPeopleByDate();
+    refresh();
 })
 
 watch(date, async () => {
-    await fetchPeopleByDate();
+    await refresh();
 })
 
 const formattedDate = computed(() => {
