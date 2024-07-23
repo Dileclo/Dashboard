@@ -14,7 +14,18 @@
             <UTable :rows="people" :columns="columns">
                 <template #actions-data="{ row }">
                     <div>
-                        <USelect v-model="row.hoursWorked" :options="[0, 4, 8]" @change="() => updateHoursWorked(row)" />
+                        <USelect v-model="row.hoursWorked" :options="[0, 4, 8]"
+                            @change="() => updateHoursWorked(row)" />
+                    </div>
+                </template>
+            </UTable>
+        </template>
+        <template #tabel="{ item }">
+            <UTable :rows="workTime" :columns="column_tabel">
+                <template #actions-data="{ row }">
+                    <div>
+                        <USelect v-model="row.hoursWorked" :options="[0, 4, 8]"
+                            @change="() => updateHoursWorked(row)" />
                     </div>
                 </template>
             </UTable>
@@ -47,6 +58,13 @@ const columns = [
     { key: 'actions', label: 'Действия' }
 ];
 
+const column_tabel = [
+    { key: 'fullname', label: 'ФИО', },
+    { key: 'totalHours', label: "Кол-во отр. часов" }
+]
+
+const workTime = ref([])
+
 const { data: people, pending, refresh } = await useLazyAsyncData('people', async () => {
     const formattedDateForAPI = date.value.format('YYYY-MM-DD');
     return $fetch('/api/users/get_users_by_date', {
@@ -58,8 +76,14 @@ const { data: people, pending, refresh } = await useLazyAsyncData('people', asyn
     })));
 });
 
+function get_hours(){
+    const r = $fetch('/api/users/get_total_hours')
+}
+
 onMounted(async () => {
     await refresh();
+    get_hours()
+
 });
 
 watch(date, async () => {
