@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     if (record) {
         console.log("Nice")
         await attendanse.updateOne(
-            { userId: body.row.id, date: body.date },
+            { phone: body.row.phone, date: body.date },
             { $set: { hoursWorked: body.hoursWorked } },
             { upsert: true }
         )
