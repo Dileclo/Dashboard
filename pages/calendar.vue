@@ -9,13 +9,17 @@
             </div>
         </template>
     </Navbar>
-    <UTable show-indexes :rows="people" :columns="columns">
-        <template #actions-data="{ row }">
-            <div>
-                <USelect v-model="row.hoursWorked" :options="[0, 4, 8]" @change="() => updateHoursWorked(row)" />
-            </div>
+    <UTabs :items="items" class="w-full">
+        <template #calendar="{ item }">
+            <UTable :rows="people" :columns="columns">
+                <template #actions-data="{ row }">
+                    <div>
+                        <USelect v-model="row.hoursWorked" :options="[0, 4, 8]" @change="() => updateHoursWorked(row)" />
+                    </div>
+                </template>
+            </UTable>
         </template>
-    </UTable>
+    </UTabs>
 </template>
 
 <script setup lang="ts">
@@ -29,6 +33,14 @@ const dayjs = useDayjs;
 dayjs.locale('ru');
 
 const date = ref(dayjs());
+
+const items = [{
+    slot: 'calendar',
+    label: 'Календарь'
+}, {
+    slot: 'tabel',
+    label: 'Табель'
+}]
 
 const columns = [
     { key: 'fullname', label: 'ФИО' },
@@ -80,7 +92,7 @@ const updateHoursWorked = async (row) => {
             date: formattedDateForAPI
         })
     });
-    
+
     await refresh(); // Обновляем данные после изменения
 };
 </script>
