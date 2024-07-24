@@ -8,9 +8,10 @@ export default defineEventHandler(async (event) => {
         const phone = entry.phone.toString();
         const hoursWorked = parseFloat(entry.hoursWorked); // Преобразуем строку в число
         if (!acc[phone]) {
-            acc[phone] = { phone: phone, hoursWorked: 0 };
+            acc[phone] = { phone: phone, hoursWorked: 0,days:0 };
         }
         acc[phone].hoursWorked += hoursWorked;
+        acc[phone].days +=1
         return acc;
     }, {});
 
@@ -20,7 +21,7 @@ export default defineEventHandler(async (event) => {
         const userName = u.find(att => att.phone.toString() === user.phone.toString());
         return {
             ...user,
-            fullname: userName ? userName.fullname : null // Handle case where userHour is not found
+            fullname: userName ? userName.fullname : null,
         };
     })
     await MongoDBclient.close()
