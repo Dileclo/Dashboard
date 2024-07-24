@@ -60,7 +60,7 @@ const columns = [
 
 const column_tabel = [
     { key: 'fullname', label: 'ФИО', },
-    { key: 'totalHours', label: "Кол-во отр. часов" }
+    { key: 'hoursWorked', label: "Кол-во отр. часов" }
 ]
 
 const workTime = ref([])
@@ -76,8 +76,9 @@ const { data: people, pending, refresh } = await useLazyAsyncData('people', asyn
     })));
 });
 
-function get_hours(){
+function get_hours() {
     const r = $fetch('/api/users/get_total_hours')
+    workTime.value = r
 }
 
 onMounted(async () => {

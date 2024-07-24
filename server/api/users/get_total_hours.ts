@@ -1,4 +1,4 @@
-import { MongoDBclient,users,attendanse } from "~/server/mongo"
+import { MongoDBclient, users, attendanse } from "~/server/mongo"
 
 export default defineEventHandler(async (event) => {
     await MongoDBclient.connect()
@@ -16,6 +16,14 @@ export default defineEventHandler(async (event) => {
 
     // Преобразуем результат обратно в массив для удобства
     const result = Object.values(hoursWorkedByUser);
-    console.log(result)
-    return {users:u}
+    const ret = result.map(user => {
+        const userName = u.find(att => att.phone.toString() === user.phone.toString());
+        return {
+            ...user,
+            fullname: userName ? userName.fullname : null // Handle case where userHour is not found
+        };
+    })
+    await MongoDBclient.close()
+
+    return ret
 })
