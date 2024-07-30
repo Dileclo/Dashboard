@@ -1,10 +1,9 @@
 <template>
-    <div class="flex items-center gap-2 p-5">
+    <div class="flex items-center gap-2 p-5  max-md:justify-between pr-4">
         <UButton @click="subtractMonth" icon="i-heroicons-arrow-left" color="gray" />
         {{ formattedMonth }}
         <UButton @click="addMonth" icon="i-heroicons-arrow-right" color="gray" />
         <UButton @click="today" color="gray" label="Тек.месяц" />
-        <UButton @click="columns" color="gray" label="REF" />
     </div>
     <UTable :rows="workTime" :columns="column_tabel"></UTable>
 </template>
@@ -14,11 +13,7 @@ import { ref, computed, onMounted } from 'vue';
 import useDayjs from 'dayjs';
 import 'dayjs/locale/ru';
 
-const column_tabel = ref([
-    { key: 'phone', label: 'ФИО' },
-    { key: 'hoursWorked', label: "Кол-во отр. часов" },
-    { key: 'days', label: "Кол-во отр. дней" }
-]);
+const column_tabel = ref([]);
 
 const dayjs = useDayjs;
 dayjs.locale('ru');
@@ -37,7 +32,7 @@ const columns = async () => {
         column_tabel.value.push({ key: i.toString(), label: i.toString() });
     }
     const res = []
-    const d = await $fetch('/api/users/get_hours_by_date',{method:"POST",body: JSON.stringify(date.value.format("MM"))})
+    const d = await $fetch('/api/users/get_hours_by_date', { method: "POST", body: JSON.stringify(date.value.format("MM")) })
     d.forEach(person => {
         res.push({ ...person });
     });

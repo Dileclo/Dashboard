@@ -1,28 +1,32 @@
 <template>
     <Navbar label="Календарь">
+        <template #header>
+            <div></div>
+        </template>
         <template #second>
-            <div class="flex items-center gap-4 w-full max-md:justify-between pr-4">
-                <UButton @click="subtractDay" icon="i-heroicons-arrow-left" color="gray" />
-                {{ formattedDate }}
-                <UButton @click="addDay" icon="i-heroicons-arrow-right" color="gray" />
-                <UButton @click="today" label="Сегодня" color="gray" />
-            </div>
+            <UTabs :items="items" class="w-full">
+                <template #calendar="{ item }">
+                    <div class="flex items-center p-5 gap-4 w-full max-md:justify-between pr-4">
+                        <UButton @click="subtractDay" icon="i-heroicons-arrow-left" color="gray" />
+                        {{ formattedDate }}
+                        <UButton @click="addDay" icon="i-heroicons-arrow-right" color="gray" />
+                        <UButton @click="today" label="Сегодня" color="gray" />
+                    </div>
+                    <UTable :rows="people" :columns="columns">
+                        <template #actions-data="{ row }">
+                            <div>
+                                <USelect v-model="row.hoursWorked" :options="[0, 4, 8]"
+                                    @change="() => updateHoursWorked(row)" />
+                            </div>
+                        </template>
+                    </UTable>
+                </template>
+                <template #tabel="{ item }">
+                    <UsersUserTabel />
+                </template>
+            </UTabs>
         </template>
     </Navbar>
-    <UTabs :items="items" class="w-full">
-        <template #calendar="{ item }">
-            <UTable :rows="people" :columns="columns">
-                <template #actions-data="{ row }">
-                    <div>
-                        <USelect v-model="row.hoursWorked" :options="[0, 4, 8]" @change="() => updateHoursWorked(row)" />
-                    </div>
-                </template>
-            </UTable>
-        </template>
-        <template #tabel="{ item }">
-            <UsersUserTabel/>
-        </template>
-    </UTabs>
 </template>
 
 <script setup lang="ts">
