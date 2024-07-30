@@ -6,7 +6,7 @@
         <div class="font-medium">{{ label }}</div>
         <slot name="header" />
     </div>
-    <div class="flex gap-4 w-full items-center pl-4 py-3 border-b">
+    <div class="flex gap-4 w-full items-center pl-4 pr-4 py-3 border-b">
         <slot name="second" />
     </div>
 </template>

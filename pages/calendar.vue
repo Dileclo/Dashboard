@@ -4,7 +4,7 @@
             <div></div>
         </template>
         <template #second>
-            <UTabs :items="items" class="w-full">
+            <UTabs :items="items" class="w-full ">
                 <template #calendar="{ item }">
                     <div class="flex items-center p-5 gap-4 w-full max-md:justify-between pr-4">
                         <UButton @click="subtractDay" icon="i-heroicons-arrow-left" color="gray" />
