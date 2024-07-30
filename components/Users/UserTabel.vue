@@ -15,7 +15,7 @@ import useDayjs from 'dayjs';
 import 'dayjs/locale/ru';
 
 const column_tabel = ref([
-    { key: 'fullname', label: 'ФИО' },
+    { key: 'phone', label: 'ФИО' },
     { key: 'hoursWorked', label: "Кол-во отр. часов" },
     { key: 'days', label: "Кол-во отр. дней" }
 ]);
@@ -36,12 +36,13 @@ const columns = async () => {
     for (let i = 1; i <= daysInMonth; i++) {
         column_tabel.value.push({ key: i.toString(), label: i.toString() });
     }
-    const d = await $fetch('/api/users/get_hours_by_date')
+    const res = []
+    const d = await $fetch('/api/users/get_hours_by_date',{method:"POST",body: JSON.stringify(date.value.format("MM"))})
     d.forEach(person => {
-        d.push({ ...person });
+        res.push({ ...person });
     });
     console.log(d);
-    workTime.value = d;
+    workTime.value = res;
 };
 
 const addMonth = () => {
