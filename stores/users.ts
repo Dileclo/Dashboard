@@ -1,6 +1,4 @@
 import { defineStore } from 'pinia'
-import axios from "axios"
-
 
 export const useUserStore = defineStore('users', () => {
     const toast = useToast();
