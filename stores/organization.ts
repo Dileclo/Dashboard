@@ -6,8 +6,7 @@ export const useOrganizationStore = defineStore('organization', () => {
 
     const fetchOrganization = async () => {
         const res = await fetch("/api/organization/fetch")
-        const org = await res.json()
-        organiztion.value = org
+        console.log("Dele",res)
     }
     const addOrganization = async (d) => {
         const res = await $fetch("/api/organization/add", { method: "POST", body: JSON.stringify(d) })
