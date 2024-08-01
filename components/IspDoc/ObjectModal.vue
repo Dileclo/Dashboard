@@ -86,6 +86,7 @@
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 import { useUserStore } from "~/stores/users"
+import {useOrganizationStore } from "~/stores/organization"
 const usersStore = useUserStore();
 const organizationStore = useOrganizationStore()
 const modal = useModal();
