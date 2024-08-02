@@ -18,11 +18,11 @@
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Наименование объекта" name="name_object">
-                    <UInput v-model="state.fullname" />
+                    <UInput v-model="state.name_object" />
                 </UFormGroup>
                 <UFormGroup label="Застройщик" name="zastroyshik">
                     <div class="flex gap-4 w-full">
-                        <USelectMenu v-model="state.fullname" class="w-full" searchable />
+                        <USelectMenu :options="organizationStore.organiztion" v-model="state.zastroyshik" class="w-full" searchable />
                         <UButton label="+" color="gray" type="button" @click.prevent="isOpen2 = true" />
                     </div>
                 </UFormGroup>
@@ -110,6 +110,7 @@ type Schema2 = InferType<typeof schema2>;
 
 const state = reactive({
     name_object: undefined,
+    zastroyshik:undefined
 });
 
 const state2 = reactive({
@@ -149,7 +150,7 @@ const fill_by_inn = async () => {
 
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    usersStore.addUser(event.data)
+    console.log(event.data)
     modal.close();
 }
 async function onSubmit2(event: FormSubmitEvent<Schema2>) {

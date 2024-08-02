@@ -16,9 +16,8 @@ const columns = [{
     label: 'Наименование объекта'
 }]
 
-onMounted(async() => {
+onMounted(async () => {
     const d = await organizationStore.fetchOrganization()
-    console.log(d)
 }
 )
 
