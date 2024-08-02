@@ -5,7 +5,7 @@
             </UButton>
         </template>
     </Navbar>
-    <UTable :columns="columns" />
+    <UTable :columns="columns" :rows="objectStore.objects" />
 </template>
 <script setup type="ts">
 import { IspDocObjectModal } from '#components';
