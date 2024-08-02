@@ -11,7 +11,7 @@ export const useObjectStore = defineStore('object', () => {
     }
 
     const addObject = async (d) => {
-        const res = await fetch("/api/objects/add", { method: "POST", body: d })
+        const res = await fetch("/api/objects/add", { method: "POST", body: JSON.stringify(d) })
     }
-    return {objects,fetchObjects,addObject}
+    return { objects, fetchObjects, addObject }
 })
