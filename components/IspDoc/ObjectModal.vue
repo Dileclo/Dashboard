@@ -20,9 +20,27 @@
                 <UFormGroup label="Наименование объекта" name="name_object">
                     <UInput v-model="state.name_object" />
                 </UFormGroup>
+                <UFormGroup label="Адрес объекта" name="name_object">
+                    <UInput v-model="state.address" />
+                </UFormGroup>
                 <UFormGroup label="Застройщик" name="zastroyshik">
                     <div class="flex gap-4 w-full">
-                        <USelectMenu :options="organizationStore.organiztion" v-model="state.zastroyshik" class="w-full" searchable />
+                        <USelectMenu :options="organizationStore.organiztion" v-model="state.zastroyshik" class="w-full"
+                            searchable />
+                        <UButton label="+" color="gray" type="button" @click.prevent="isOpen2 = true" />
+                    </div>
+                </UFormGroup>
+                <UFormGroup label="Лицо, осуществляющее строительство" name="lico_os_str">
+                    <div class="flex gap-4 w-full">
+                        <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_str" class="w-full"
+                            searchable />
+                        <UButton label="+" color="gray" type="button" @click.prevent="isOpen2 = true" />
+                    </div>
+                </UFormGroup>
+                <UFormGroup label="Лицо, осуществляющее подготовку проектной документации" name="lico_os_proekt">
+                    <div class="flex gap-4 w-full">
+                        <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_proekt" class="w-full"
+                            searchable />
                         <UButton label="+" color="gray" type="button" @click.prevent="isOpen2 = true" />
                     </div>
                 </UFormGroup>
@@ -86,7 +104,9 @@
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 import { useUserStore } from "~/stores/users"
-import {useOrganizationStore } from "~/stores/organization"
+import { useOrganizationStore } from "~/stores/organization"
+
+const objectStore = useObjectStore()
 const usersStore = useUserStore();
 const organizationStore = useOrganizationStore()
 const modal = useModal();
@@ -110,17 +130,21 @@ type Schema2 = InferType<typeof schema2>;
 
 const state = reactive({
     name_object: undefined,
-    zastroyshik:undefined
+    zastroyshik: undefined,
+    address: undefined,
+    lico_os_str: undefined,
+    lico_os_proekt: undefined,
+
 });
 
 const state2 = reactive({
     name_org: undefined,
     inn: undefined,
     addres_org: undefined,
-    kpp:undefined,
-    ogrn:undefined,
+    kpp: undefined,
+    ogrn: undefined,
     svvo_reg: undefined,
-    sro:undefined
+    sro: undefined
 });
 
 const fill_by_inn = async () => {
@@ -150,7 +174,7 @@ const fill_by_inn = async () => {
 
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(event.data)
+    objectStore.addObject(event.data)
     modal.close();
 }
 async function onSubmit2(event: FormSubmitEvent<Schema2>) {
