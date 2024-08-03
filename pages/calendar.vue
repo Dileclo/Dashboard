@@ -12,7 +12,7 @@
                         <UButton @click="addDay" icon="i-heroicons-arrow-right" color="gray" />
                         <UButton @click="today" label="Сегодня" color="gray" />
                     </div>
-                    <UTable :rows="people" :columns="columns">
+                    <UTable :loading="pending" :rows="people" :columns="columns">
                         <template #actions-data="{ row }">
                             <div>
                                 <USelect v-model="row.hoursWorked" :options="[0, 4, 8]"
@@ -35,6 +35,7 @@ import useDayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import { useUserStore } from '~/stores/users';
 
+const loading = ref(false)
 const usersStore = useUserStore();
 const dayjs = useDayjs;
 dayjs.locale('ru');
