@@ -3,15 +3,24 @@ import { defineStore } from 'pinia'
 export const useObjectStore = defineStore('object', () => {
     const toast = useToast();
     const objects = ref([])
+    const loading = ref(false)
 
     const fetchObjects = async () => {
+        loading.value = true
         const response = await fetch('/api/objects/fetch')
         const data = await response.json()
-        objects.value = data.objects
+        objects.value = data.o
+        loading.value = false
     }
 
     const addObject = async (d) => {
+        loading.value = true
         const res = await fetch("/api/objects/add", { method: "POST", body: JSON.stringify(d) })
+        await fetchObjects()
     }
-    return { objects, fetchObjects, addObject }
+    const deleteObject = async (d) => {
+        const res = await fetch("/api/objects/delete", { method: "POST", body: JSON.stringify(d) })
+        await fetchObjects()
+    }
+    return { objects, fetchObjects, addObject, deleteObject,loading }
 })
