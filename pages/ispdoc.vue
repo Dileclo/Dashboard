@@ -14,6 +14,9 @@
                 <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
             </UDropdown>
         </template>
+        <template #open-data="{ row }">
+            <UButton icon="i-heroicons-book-open" label="Открыть" :to="`/objects/${row.name_object}`"  color="gray"  />
+        </template>
     </UTable>
 </template>
 <script setup type="ts">
@@ -21,13 +24,15 @@ import { IspDocObjectModal } from '#components';
 const objectStore = useObjectStore()
 const organizationStore = useOrganizationStore()
 const modal = useModal()
-const columns = [{
-    key: 'name_object',
-    label: 'Наименование объекта'
-},
-{
-    key: 'actions',
-}]
+const columns = [
+    { key: 'open' }, {
+        key: 'name_object',
+        label: 'Наименование объекта',
+        class:'w-full'
+    },
+    {
+        key: 'actions',
+    },]
 
 const items = (row) => [
     [{
