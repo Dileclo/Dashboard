@@ -12,6 +12,11 @@ export const useObjectStore = defineStore('object', () => {
         objects.value = data.o
         loading.value = false
     }
+    
+    const fetchObjectByID = async (id) => {
+        const res = await fetch('/api/objects/fetch_by_id',{method:"POST",body:id})
+        console.log(res.json().o)
+    }
 
     const addObject = async (d) => {
         loading.value = true
@@ -22,5 +27,5 @@ export const useObjectStore = defineStore('object', () => {
         const res = await fetch("/api/objects/delete", { method: "POST", body: JSON.stringify(d) })
         await fetchObjects()
     }
-    return { objects, fetchObjects, addObject, deleteObject,loading }
+    return { objects, fetchObjects, addObject, deleteObject, loading, fetchObjectByID }
 })

@@ -8,7 +8,7 @@
             </template>
             <template #second>
                 <UForm :state="state" class="space-y-4" @submit="onSubmit">
-                    <UFormGroup label="Наименование работы" name="name_object">
+                    <UFormGroup label="Наименование объекта" name="name_object">
                         <UInput v-model="state.name_work" />
                     </UFormGroup>
                 </UForm>
@@ -72,8 +72,13 @@ const items = (row) => [
 ];
 
 const state = reactive({
-    name_object: undefined,
+    name_work: undefined,
 });
+
+onMounted(() => {
+    state.name_work = router.params.id
+    objectStore.fetchObjectByID(router.params.id)
+})
 
 const q = ref('');
 
