@@ -11,6 +11,18 @@
                     <UFormGroup label="Наименование объекта" name="name_object">
                         <UInput v-model="state.name_work" />
                     </UFormGroup>
+                    <UFormGroup label="Застройщик" name="name_object">
+                    <USelectMenu :options="organizationStore.organiztion" v-model="state.zastroyshik" class="w-full"
+                        searchable />
+                    </UFormGroup>
+                    <UFormGroup label="Лицо, осуществляющее строительство" name="lico_os_str">
+                        <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_str" class="w-full"
+                        searchable />
+                    </UFormGroup>
+                    <UFormGroup label="Лицо, осуществляющее подготовку проектной документации" name="lico_os_proekt">
+                        <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_proekt" class="w-full"
+                        searchable />
+                    </UFormGroup>
                 </UForm>
             </template>
         </Navbar>
@@ -33,6 +45,7 @@
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 import { IspDocWorkModal } from '#components';
+const organizationStore = useOrganizationStore()
 const objectStore = useObjectStore()
 const router = useRoute()
 const modal = useModal()
@@ -73,11 +86,18 @@ const items = (row) => [
 
 const state = reactive({
     name_work: undefined,
+    zastroyshik:undefined,
+    lico_os_str:undefined,
+    lico_os_proekt:undefined,
 });
 
-onMounted(() => {
+onMounted(async() => {
+    organizationStore.fetchOrganization()
+    const d = await objectStore.fetchObjectByID(router.params.id)
     state.name_work = router.params.id
-    objectStore.fetchObjectByID(router.params.id)
+    state.zastroyshik = d.o.zastroyshik
+    state.lico_os_str = d.o.lico_os_str
+    state.lico_os_proekt = d.o.lico_os_proekt
 })
 
 const q = ref('');
