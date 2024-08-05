@@ -15,7 +15,7 @@
             </UDropdown>
         </template>
         <template #open-data="{ row }">
-            <UButton icon="i-heroicons-book-open" label="Открыть" :to="`/objects/${row.name_object}`"  color="gray"  />
+            <UButton icon="i-heroicons-book-open" label="Открыть" :to="`/objects/${row.name_object}`" color="gray" />
         </template>
     </UTable>
 </template>
@@ -28,7 +28,7 @@ const columns = [
     { key: 'open' }, {
         key: 'name_object',
         label: 'Наименование объекта',
-        class:'w-full'
+        class: 'w-full'
     },
     {
         key: 'actions',
