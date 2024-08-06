@@ -36,7 +36,7 @@
                         <div class="flex p-4">
                             <UInput v-model="q" placeholder="Поиск работ..." />
                         </div>
-                        <UTable :columns="columns" :rows="workStore.works">
+                        <UTable :loading="workStore.loading" :columns="columns" :rows="workStore.works">
                             <template #open-data="{ row }">
                                 <UButton label="0" />
                             </template>
@@ -105,7 +105,7 @@ const items = (row) => [
     }], [{
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
-        click: () => objectStore.deleteObject(row)
+        click: () => workStore.deleteWork(row)
     }]
 ];
 
