@@ -5,5 +5,5 @@ const users = MongoDBclient.db('testdb').collection('users')
 const attendanse = MongoDBclient.db('testdb').collection('attendanse')
 const organization = MongoDBclient.db('testdb').collection('organization')
 const objects = MongoDBclient.db('testdb').collection('objects')
-
-export {MongoDBclient,users,attendanse,organization,objects}
+const works = MongoDBclient.db('testdb').collection('works')
+export {MongoDBclient,users,attendanse,organization,objects,works}

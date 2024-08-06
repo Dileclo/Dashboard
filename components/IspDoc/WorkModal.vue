@@ -33,7 +33,7 @@ import type { FormSubmitEvent } from '#ui/types';
 
 const router = useRoute()
 const modal = useModal()
-
+const workStore = useWorkStore()
 const schema = object({
     name_work: string().required("Обязательное поле"),
 });
@@ -44,6 +44,12 @@ const state = reactive({
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+    const events = {
+        name_object:router.params.id,
+        name_work:state.name_work
+    }
+    console.log(events)
+    await workStore.addWork(JSON.stringify(events))
     modal.close();
 }
 

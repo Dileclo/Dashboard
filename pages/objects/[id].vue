@@ -7,38 +7,52 @@
                 </UButton>
             </template>
             <template #second>
-                <UForm :state="state" class="space-y-4" @submit="onSubmit">
-                    <UFormGroup label="Наименование объекта" name="name_object">
-                        <UInput v-model="state.name_work" />
-                    </UFormGroup>
-                    <UFormGroup label="Застройщик" name="name_object">
-                    <USelectMenu :options="organizationStore.organiztion" v-model="state.zastroyshik" class="w-full"
-                        searchable />
-                    </UFormGroup>
-                    <UFormGroup label="Лицо, осуществляющее строительство" name="lico_os_str">
-                        <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_str" class="w-full"
-                        searchable />
-                    </UFormGroup>
-                    <UFormGroup label="Лицо, осуществляющее подготовку проектной документации" name="lico_os_proekt">
-                        <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_proekt" class="w-full"
-                        searchable />
-                    </UFormGroup>
-                </UForm>
+                <UTabs :items="itemsTab" class="w-full ">
+                    <template #settings="{ item }">
+                        <UForm :state="state" class="space-y-4 w-full" @submit="onSubmit">
+                            <div class="grid grid-cols-2 gap-5 max-md:grid-cols-1">
+                                <UFormGroup label="Наименование объекта" name="name_object">
+                                    <UInput v-model="state.name_work" />
+                                </UFormGroup>
+                                <UFormGroup label="Застройщик" name="name_object">
+                                    <USelectMenu :options="organizationStore.organiztion" v-model="state.zastroyshik"
+                                        class="w-full" searchable />
+                                </UFormGroup>
+                                <UFormGroup label="Лицо, осуществляющее строительство" name="lico_os_str">
+                                    <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_str"
+                                        class="w-full" searchable />
+                                </UFormGroup>
+                                <UFormGroup label="Лицо, осуществляющее подготовку проектной документации"
+                                    name="lico_os_proekt">
+                                    <USelectMenu :options="organizationStore.organiztion" v-model="state.lico_os_proekt"
+                                        class="w-full" searchable />
+                                </UFormGroup>
+                            </div>
+                            <UButton type="submit" label="Изменить" color="gray" />
+
+                        </UForm>
+                    </template>
+                    <template #work>
+                        <div class="flex p-4">
+                            <UInput v-model="q" placeholder="Поиск работ..." />
+                        </div>
+                        <UTable :columns="columns" :rows="workStore.works">
+                            <template #open-data="{ row }">
+                                <UButton label="0" />
+                            </template>
+                            <template #actions-data="{ row }">
+                                <UDropdown :items="items(row)">
+                                    <UButton color="gray" variant="ghost"
+                                        icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                                </UDropdown>
+                            </template>
+                        </UTable>
+                    </template>
+                </UTabs>
             </template>
         </Navbar>
-        <div class="flex p-4">
-            <UInput v-model="q" placeholder="Поиск работ..." />
-        </div>
-        <UTable :columns="columns">
-            <template #open-data="{ row }">
-                <UButton label="0" />
-            </template>
-            <template #actions-data="{ row }">
-                <UDropdown :items="items(row)">
-                    <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-                </UDropdown>
-            </template>
-        </UTable>
+
+
     </div>
 </template>
 <script setup lang="ts">
@@ -47,6 +61,7 @@ import type { FormSubmitEvent } from '#ui/types';
 import { IspDocWorkModal } from '#components';
 const organizationStore = useOrganizationStore()
 const objectStore = useObjectStore()
+const workStore = useWorkStore()
 const router = useRoute()
 const modal = useModal()
 const columns = [
@@ -62,7 +77,17 @@ const columns = [
         key: 'actions',
     }
 ]
+const itemsTab = [
+    {
+        slot: 'work',
+        label: 'Работы'
+    },
+    {
+        slot: 'settings',
+        label: 'Настройки'
+    },
 
+]
 const items = (row) => [
     [{
         label: 'Edit',
@@ -86,13 +111,14 @@ const items = (row) => [
 
 const state = reactive({
     name_work: undefined,
-    zastroyshik:undefined,
-    lico_os_str:undefined,
-    lico_os_proekt:undefined,
+    zastroyshik: undefined,
+    lico_os_str: undefined,
+    lico_os_proekt: undefined,
 });
 
-onMounted(async() => {
-    organizationStore.fetchOrganization()
+onMounted(async () => {
+    await organizationStore.fetchOrganization()
+    await workStore.fetchWork()
     const d = await objectStore.fetchObjectByID(router.params.id)
     state.name_work = router.params.id
     state.zastroyshik = d.o.zastroyshik
