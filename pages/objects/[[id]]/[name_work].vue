@@ -1,5 +1,5 @@
 <template>
-    <Navbar :links="[{ label: router.params.id,to:`/objects/${router.params.id}` }, { label: router.params.name_work }]">
+    <Navbar :links="[{ icon: 'i-heroicons-arrow-left',to:`/objects/${router.params.id}` }, { label: router.params.name_work }]">
         <template #header> <div></div> </template>
     </Navbar>
     <div>
