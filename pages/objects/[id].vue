@@ -1,13 +1,12 @@
 <template>
     <div>
-        <Navbar :label="router.params.id">
-            <template #header>
-                <UButton @click=" modal.open(IspDocWorkModal);" icon="i-heroicons-plus"
-                    :ui="{ rounded: 'rounded-full' }">
+        <Navbar :links="[{ label: 'Исп.документация' ,to:'/ispdoc' }, { label: router.params.id }]">
+                <template #header>
+                <UButton @click=" modal.open(IspDocWorkModal);" icon="i-heroicons-plus" :ui="{ rounded: 'rounded-full' }">
                 </UButton>
             </template>
             <template #second>
-                <UTabs :items="itemsTab" class="w-full ">
+                <UTabs :items="itemsTab" class="w-full">
                     <template #settings="{ item }">
                         <UForm :state="state" class="space-y-4 w-full" @submit="onSubmit">
                             <div class="grid grid-cols-2 gap-5 max-md:grid-cols-1">
@@ -38,12 +37,12 @@
                         </div>
                         <UTable :loading="workStore.loading" :columns="columns" :rows="workStore.works">
                             <template #open-data="{ row }">
-                                <UButton label="0" />
+                                <UButton icon="i-heroicons-book-open" label="Открыть" :to="`/objects/${router.params.id}/${row.name_work}`"
+                                    color="gray" />
                             </template>
                             <template #actions-data="{ row }">
                                 <UDropdown :items="items(row)">
-                                    <UButton color="gray" variant="ghost"
-                                        icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                                    <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
                                 </UDropdown>
                             </template>
                         </UTable>
@@ -56,6 +55,11 @@
     </div>
 </template>
 <script setup lang="ts">
+
+definePageMeta({
+    title: 'My home page'
+})
+
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 import { IspDocWorkModal } from '#components';
@@ -85,6 +89,10 @@ const itemsTab = [
     {
         slot: 'settings',
         label: 'Настройки'
+    },
+    {
+        slot: 'documents',
+        label: 'Документы'
     },
 
 ]

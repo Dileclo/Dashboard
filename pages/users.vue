@@ -1,9 +1,10 @@
 <template>
     <div>
-        <Navbar label="Сотрудники">
+        <Navbar :links="[{ label: 'Главная', to: '/' }, { label: 'Пользователи' }]">
             <template #header>
                 <div>
-                    <UButton @click=" modal.open(UsersModal);" icon="i-heroicons-plus" :ui="{ rounded: 'rounded-full' }"></UButton>
+                    <UButton @click=" modal.open(UsersModal);" icon="i-heroicons-plus" :ui="{ rounded: 'rounded-full' }">
+                    </UButton>
                 </div>
             </template>
             <template #second>
@@ -80,7 +81,7 @@ const items = (row) => [
     }], [{
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
-        click: ()=>usersStore.deleteUser(row)
+        click: () => usersStore.deleteUser(row)
     }]
 ];
 

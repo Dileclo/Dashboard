@@ -3,7 +3,7 @@
         <div class="md:hidden">
             <UIcon @click="sidebarStore.toggle" name="i-heroicons-bars-3" class="text-3xl " />
         </div>
-        <div class="font-medium">{{ label }}</div>
+        <UBreadcrumb divider="/" :links="links" />
         <slot name="header" />
     </div>
     <div class="flex gap-4 w-full items-center pl-4 pr-4 py-3 border-b">
@@ -14,6 +14,6 @@
 import { useSidebarStore } from "../stores/sidebar"
 const sidebarStore = useSidebarStore()
 defineProps({
-    label: ''
+    links: [],
 })
 </script>

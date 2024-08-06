@@ -1,5 +1,5 @@
 <template>
-    <Navbar label="Календарь">
+    <Navbar :links="[{ label: 'Главная', to: '/' }, { label: 'Календарь' }]">
         <template #header>
             <div></div>
         </template>
