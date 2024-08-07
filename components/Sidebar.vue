@@ -38,7 +38,7 @@ const links = [[
     }, {
         label: 'Исп. документация',
         to: '/ispdoc',
-        icon: 'i-heroicons-document'
+        icon: 'i-heroicons-document',
     },
 
 ], [{

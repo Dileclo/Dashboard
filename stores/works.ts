@@ -4,9 +4,9 @@ export const useWorkStore = defineStore('work', () => {
     const works = ref([])
     const loading = ref(false)
 
-    const fetchWork = async () => {
+    const fetchWork = async (work) => {
         loading.value = true
-        const r = await fetch('/api/objects/works/fetch_all')
+        const r = await fetch('/api/objects/works/fetch_all',{method:'POST',body:JSON.stringify(work)})
         const res = await r.json()
         works.value = res.o
         loading.value = false

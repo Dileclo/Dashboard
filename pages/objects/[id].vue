@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar :links="[{ label: 'Исп.документация' ,to:'/ispdoc' }, { label: router.params.id }]">
+        <Navbar :links="[{ icon: 'i-heroicons-arrow-left', to: `/ispdoc` }, { label: router.params.id }]">
                 <template #header>
                 <UButton @click=" modal.open(IspDocWorkModal);" icon="i-heroicons-plus" :ui="{ rounded: 'rounded-full' }">
                 </UButton>
@@ -126,7 +126,7 @@ const state = reactive({
 
 onMounted(async () => {
     await organizationStore.fetchOrganization()
-    await workStore.fetchWork()
+    await workStore.fetchWork(router.params.id)
     const d = await objectStore.fetchObjectByID(router.params.id)
     state.name_work = router.params.id
     state.zastroyshik = d.o.zastroyshik
