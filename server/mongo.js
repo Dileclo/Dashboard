@@ -6,4 +6,5 @@ const attendanse = MongoDBclient.db('testdb').collection('attendanse')
 const organization = MongoDBclient.db('testdb').collection('organization')
 const objects = MongoDBclient.db('testdb').collection('objects')
 const works = MongoDBclient.db('testdb').collection('works')
-export {MongoDBclient,users,attendanse,organization,objects,works}
+const units = MongoDBclient.db('testdb').collection('units')
+export {MongoDBclient,users,attendanse,organization,objects,works,units}

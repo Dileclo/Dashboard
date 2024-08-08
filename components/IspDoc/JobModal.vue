@@ -1,7 +1,5 @@
-
-import type { IspDocObjectModal } from '#build/components';
 <template>
-    <UModal @close="modal.close" >
+    <UModal @close="modal.close">
         <UCard :ui="{
             base: 'h-full flex flex-col',
             rounded: '',
@@ -11,22 +9,25 @@ import type { IspDocObjectModal } from '#build/components';
             <template #header>
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                        Добавить организацию
+                        Добавить работу
                     </h3>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-                        @click="returnToObject" />
+                        @click="modal.close" />
                 </div>
             </template>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-                <UFormGroup label="Наименование объекта" name="name_object">
-                    <UInput v-model="state.fullname" />
+                <UFormGroup label="Наименование" name="name_object">
+                    <UInput v-model="state.name_work" />
                 </UFormGroup>
-                <UFormGroup label="Застройщик" name="zastroyshik">
-                    <div class="flex gap-4 w-full">
-                        <USelectMenu v-model="state.fullname" class="w-full" searchable />
-                        <UButton label="+" color="gray" />
+                <UFormGroup label="Ед.изм" name="unit">
+                    <div class="flex gap-4">
+                        <USelectMenu :options="unitStore.units" v-model="state.unit" class="w-full" searchable />
+                        <UButton @click="unitStore.open" label="+" color="gray"/>
                     </div>
+                </UFormGroup>
+                <UFormGroup label="Количество" name="unit">
+                    <UInput v-model="state.count" />
                 </UFormGroup>
                 <UButton type="submit">
                     Добавить
@@ -35,34 +36,28 @@ import type { IspDocObjectModal } from '#build/components';
         </UCard>
     </UModal>
 </template>
-
 <script setup lang="ts">
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
-import { useUserStore } from "~/stores/users"
-import { IspDocObjectModal } from "#components"
 
-const usersStore = useUserStore();
-const modal = useModal();
+const router = useRoute()
+const modal = useModal()
+
+const unitStore = useUnitStore()
+
 
 const schema = object({
-    name_object: string().required("Обязательное поле"),
+    name_work: string().required("Обязательное поле"),
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
-    name_object: undefined,
+    name_work: undefined,
+    unit: undefined,
+    count: undefined
 });
 
-const returnToObject = () =>{
-    modal.close()
-    setTimeout(() => {
-        modal.open(IspDocObjectModal); // Открытие нового модального окна
-    }, 300);
+async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-    usersStore.addUser(event.data)
-    modal.close();
-}
 </script>
