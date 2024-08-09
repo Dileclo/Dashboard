@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useUnitStore = defineStore('unit', () => {
     const units = ref([])
-
+    const isOpen = ref(false)
     const addUnit = async (u) => {
         const res = await fetch('/api/units/add', { method: 'POST', body: u })
         await fetchUnit()
@@ -12,6 +12,6 @@ export const useUnitStore = defineStore('unit', () => {
         const data = await res.json()
         units.value = data.o
     }
-    return { units, addUnit, fetchUnit }
+    return { units, addUnit, fetchUnit,isOpen }
 
 })

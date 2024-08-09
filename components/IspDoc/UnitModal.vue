@@ -1,5 +1,5 @@
 <template>
-    <UModal @close="modal.close" prevent-close>
+    <UModal >
         <UCard :ui="{
             base: 'h-full flex flex-col',
             rounded: '',
@@ -12,29 +12,26 @@
                         Добавить работу
                     </h3>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-                        @click="modal.close" />
+                        @click="unitStore.isOpen=false" />
                 </div>
             </template>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
                 <UFormGroup label="Наименование работы" name="name_object">
                     <UInput v-model="state.name_work" />
-                    <UButton label="+" color="gray" @click="unitStore.isOpen=true"/>
                 </UFormGroup>
                 <UButton type="submit">
                     Добавить
                 </UButton>
             </UForm>
         </UCard>
-        <IspDocUnitModal v-model="unitStore.isOpen"/>
     </UModal>
 </template>
 <script setup lang="ts">
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
-const unitStore = useUnitStore()
 const modal = useModal()
-
+const unitStore = useUnitStore()
 const schema = object({
     name_work: string().required("Обязательное поле"),
 });
@@ -45,7 +42,7 @@ const state = reactive({
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log("JOB SUB")
+    console.log("UNIT SUB")
 }
 
 </script>
