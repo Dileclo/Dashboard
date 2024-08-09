@@ -17,17 +17,8 @@
             </template>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-                <UFormGroup label="Наименование" name="name_object">
+                <UFormGroup label="Наименование работы" name="name_object">
                     <UInput v-model="state.name_work" />
-                </UFormGroup>
-                <UFormGroup label="Ед.изм" name="unit">
-                    <div class="flex gap-4">
-                        <USelectMenu :options="unitStore.units" v-model="state.unit" class="w-full" searchable />
-                        <UButton @click="unitStore.open" label="+" color="gray"/>
-                    </div>
-                </UFormGroup>
-                <UFormGroup label="Количество" name="unit">
-                    <UInput v-model="state.count" />
                 </UFormGroup>
                 <UButton type="submit">
                     Добавить
@@ -39,12 +30,7 @@
 <script setup lang="ts">
 import { object, string, date, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
-
-const router = useRoute()
 const modal = useModal()
-
-const unitStore = useUnitStore()
-
 
 const schema = object({
     name_work: string().required("Обязательное поле"),
@@ -53,11 +39,10 @@ type Schema = InferType<typeof schema>;
 
 const state = reactive({
     name_work: undefined,
-    unit: undefined,
-    count: undefined
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+
 }
 
 </script>
