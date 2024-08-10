@@ -1,5 +1,5 @@
 <template>
-    <UModal >
+    <UModal fullscreen>
         <UCard :ui="{
             base: 'h-full flex flex-col',
             rounded: '',
