@@ -7,4 +7,5 @@ const organization = MongoDBclient.db('testdb').collection('organization')
 const objects = MongoDBclient.db('testdb').collection('objects')
 const works = MongoDBclient.db('testdb').collection('works')
 const units = MongoDBclient.db('testdb').collection('units')
-export {MongoDBclient,users,attendanse,organization,objects,works,units}
+const jobs = MongoDBclient.db('testdb').collection('jobs')
+export {MongoDBclient,users,attendanse,organization,objects,works,units,jobs}

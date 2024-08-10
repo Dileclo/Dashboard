@@ -14,5 +14,8 @@ export default defineNuxtConfig({
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' }
       ]
     }
+  },
+  build: {
+    transpile: ['@vuepic/vue-datepicker']
   }
 })

@@ -6,6 +6,7 @@ export const useWorkStore = defineStore('work', () => {
 
     const fetchWork = async (work) => {
         loading.value = true
+        console.log(typeof(work))
         const r = await fetch('/api/objects/works/fetch_all',{method:'POST',body:JSON.stringify(work)})
         const res = await r.json()
         works.value = res.o
@@ -16,7 +17,8 @@ export const useWorkStore = defineStore('work', () => {
     const addWork = async (w) => {
         loading.value = true
         const r = await fetch('/api/objects/works/add', { method: 'POST', body: w })
-        await fetchWork()
+        console.log()
+        await fetchWork(JSON.parse(w).name_object)
         loading.value = false
 
     }
@@ -25,7 +27,7 @@ export const useWorkStore = defineStore('work', () => {
         console.log(work)
         loading.value = true
         const r = await fetch('/api/objects/works/delete', { method: 'POST', body: JSON.stringify(work) })
-        await fetchWork()
+        await fetchWork(work.name_object)
         loading.value = false
     }
     return { works, fetchWork, deleteWork, addWork, loading }

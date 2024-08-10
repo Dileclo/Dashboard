@@ -3,8 +3,18 @@ import { MongoDBclient, units } from "~/server/mongo"
 export default defineEventHandler(async (event) => {
     await MongoDBclient.connect()
     const body = await readBody(event)
-    console.log(body)
-    const res = await units.insertOne(body)
-    await MongoDBclient.close()
-    return { o: res }
+    try {
+        const check = await units.findOne(JSON.parse(body))
+        if (check){
+            setResponseStatus(event,400)
+        }else{
+            return await units.insertOne(JSON.parse(body))
+        }
+    } catch {
+
+    } finally {
+        await MongoDBclient.close()
+
+    }
+
 })

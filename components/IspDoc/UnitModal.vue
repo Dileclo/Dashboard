@@ -9,7 +9,7 @@
             <template #header>
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                        Добавить работу
+                        Добавить ед.измерения
                     </h3>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
                         @click="unitStore.isOpen=false" />
@@ -17,8 +17,8 @@
             </template>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-                <UFormGroup label="Наименование работы" name="name_object">
-                    <UInput v-model="state.name_work" />
+                <UFormGroup label="Наименование" name="unit">
+                    <UInput v-model="state.unit" />
                 </UFormGroup>
                 <UButton type="submit">
                     Добавить
@@ -33,16 +33,16 @@ import type { FormSubmitEvent } from '#ui/types';
 const modal = useModal()
 const unitStore = useUnitStore()
 const schema = object({
-    name_work: string().required("Обязательное поле"),
+    unit: string().required("Обязательное поле"),
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
-    name_work: undefined,
+    unit: undefined,
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log("UNIT SUB")
+    unitStore.addUnit(event.data)
 }
 
 </script>
