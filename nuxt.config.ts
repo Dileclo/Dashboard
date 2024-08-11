@@ -1,7 +1,16 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", '@pinia/nuxt', 'dayjs-nuxt'],
+  modules: ["@nuxt/ui", '@pinia/nuxt', 'dayjs-nuxt', "@sidebase/nuxt-auth"],
+  auth: {
+    globalAppMiddleware: true,
+    provider: {
+      type: 'authjs',
+      trustHost: false,
+      defaultProvider: 'github',
+      addDefaultCallbackUrl: true
+    }
+  },
   compatibilityDate: "2024-07-12",
   dayjs: {
     locales: ['ru'],

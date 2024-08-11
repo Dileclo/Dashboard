@@ -6,7 +6,7 @@
         </template>
         <template #second>
             <UInput v-model="q" placeholder="Поиск работы..." />
-            <VueDatePicker v-model="date"></VueDatePicker>
+            <VueDatePicker :enableTimePicker="false"  @update:model-value="findByDate" :showTime="false" range locale="ru" v-model="date"></VueDatePicker>
         </template>
     </Navbar>
     <UTable :columns="columns" :loading="jobStore.loading" :rows="filteredRows">
@@ -83,6 +83,10 @@ const items = (row) => [
         click: () => jobStore.deleteJob(row, router.params)
     }]
 ];
+
+const findByDate = (d) =>{
+    console.log(date.value)
+}
 
 onMounted(async () => {
     await jobStore.fetchJob(router.params)
