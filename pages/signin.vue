@@ -1,28 +1,49 @@
-<script setup lang="ts">
-// Remember to disable the middleware protection from your page!
-definePageMeta({
-    layout:'login',
-    auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' }
+<script lang="ts" setup>
+
+const { signIn } = useAuth() // uses the default signIn function provided by nuxt-auth
+const formData = reactive({
+    email: '',
+    password: '',
 })
 
-const { signIn } = useAuth()
 
-/*
- * NOTE: Here we hard-coded username and password
- * On your own page this should probably be connected to two inputs
- */
-const demoCredentials = { username: 'test', password: 'hunter2' }
+const login = async (e) => {
+    try {
+        e.preventDefault()
+        let res = await signIn(
+            { ...formData },
+            { callbackUrl: '/home' } // Where the user will be redirected after a successiful login
+        )
+
+        console.log("res", res);
+
+    } catch (error) {
+        console.log("error", error);
+    }
+}
+
+definePageMeta({
+    title: 'Signin',
+    layout: 'login',
+    public: true,
+    auth: {
+        unauthenticatedOnly: true,
+        navigateAuthenticatedTo: '/',
+    },
+})
+
+
 </script>
 
 <template>
-    HELLO WORLD
     <div>
-        <p>Sign-In Options:</p>
-        <button @click="signIn('github')">
-            Github
-        </button>
-        <button @click="signIn('credentials', demoCredentials)">
-            Username and Password
-        </button>
+        <div class="custom-bg mb-14 p-14 text-center text-white">
+            <h1>Sigin</h1>
+        </div>
+        <form @submit.prevent="login" class="card custom-card mx-auto w-11/12 max-w-md bg-white p-6 shadow-lg">
+            <input type="email" v-model="formData.email" name="email" placeholder="email here.." />
+            <input type="password" v-model="formData.password" name="password" />
+            <button type="submit">Sign In</button>
+        </form>
     </div>
 </template>

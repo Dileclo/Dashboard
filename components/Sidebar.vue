@@ -7,8 +7,7 @@
             <UVerticalNavigation :links="links" />
         </div>
         <div class="flex h-full w-full items-end">
-            <h1>Welcome, {{ session?.user?.name }}</h1>
-            <UButton label="Выход" color="gray" @click="logout" />
+            <UserDropdown />
         </div>
     </div>
     <div v-if="sidebarStore.isOpen" class="absolute flex-col top-0 left-0 w-full h-full bg-white z-[1000] ">
@@ -19,11 +18,14 @@
             <UInput icon="i-heroicons-magnifying-glass-20-solid" class="mb-4" size="sm" color="white" :trailing="false"
                 placeholder="Поиск..." />
             <UVerticalNavigation :links="links" />
+
+        </div>
+        <div class="flex px-4 w-full items-end">
+            <UserDropdown />
         </div>
     </div>
 </template>
 <script setup>
-const { signOut, data: session } = useAuth();
 import { useSidebarStore } from "../stores/sidebar"
 const sidebarStore = useSidebarStore()
 const links = [[
@@ -56,11 +58,5 @@ const links = [[
     icon: 'i-heroicons-cube'
 }
 ]]
-const logout = async () => {
-    try {
-        await signOut({ callbackUrl: '/signin' }); // перенаправление на страницу логина после выхода
-    } catch (error) {
-        console.error('Logout failed', error);
-    }
-}
+
 </script>
