@@ -41,7 +41,7 @@ definePageMeta({
             <h1>Sigin</h1>
         </div>
         <form @submit.prevent="login" class="card custom-card mx-auto w-11/12 max-w-md bg-white p-6 shadow-lg">
-            <input type="email" v-model="formData.email" name="email" placeholder="email here.." />
+            <input v-model="formData.email" name="email" placeholder="email here.." />
             <input type="password" v-model="formData.password" name="password" />
             <button type="submit">Sign In</button>
         </form>

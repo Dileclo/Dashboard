@@ -3,13 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui", '@pinia/nuxt', 'dayjs-nuxt', "@sidebase/nuxt-auth"],
   auth: {
-    endpoints: {
-      signIn:'/signin'
-    },
     globalAppMiddleware: true,
-    pages: {
-      login: '/signin' // путь к вашей кастомной странице авторизации
-    }
   },
 
   compatibilityDate: "2024-07-12",
