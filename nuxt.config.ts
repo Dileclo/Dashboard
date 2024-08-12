@@ -4,13 +4,11 @@ export default defineNuxtConfig({
   modules: ["@nuxt/ui", '@pinia/nuxt', 'dayjs-nuxt', "@sidebase/nuxt-auth"],
   auth: {
     globalAppMiddleware: true,
-    provider: {
-      type: 'authjs',
-      trustHost: false,
-      defaultProvider: 'github',
-      addDefaultCallbackUrl: true
+    pages: {
+      signIn: '/signin' // путь к вашей кастомной странице авторизации
     }
   },
+
   compatibilityDate: "2024-07-12",
   dayjs: {
     locales: ['ru'],
