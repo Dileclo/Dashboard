@@ -1,19 +1,12 @@
 import { MongoDBclient, auth } from "~/server/mongo"
-
 export default defineEventHandler(async (event) => {
+    const bcrypt = require('bcrypt');
     await MongoDBclient.connect()
     const body = await readBody(event)
-    const body_parse = JSON.parse(body)
-    const user = await auth.findOne({ username: body_parse.username })
-    if (user && user.password === body_parse.password) {
-        return {
-            body: JSON.stringify({ message: "User authenticated successfully" })
-        }
-    } else {
-        return {
-            body: JSON.stringify({ message: "Invalid username or password" })
-        }
-    }
+    bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(JSON.parse(body).password, salt, function (err, hash) {
+            console.log(hash)
+        });
+    });
     await MongoDBclient.close()
-    return { body: JSON.stringify({ message: "An error occurred" }) }
 })

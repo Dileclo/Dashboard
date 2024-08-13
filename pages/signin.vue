@@ -2,7 +2,7 @@
 import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const { signIn } = useAuth() // uses the default signIn function provided by nuxt-auth
-
+const authStore = useAuthStore()
 definePageMeta({
     title: 'Signin',
     layout: false,
@@ -48,7 +48,7 @@ async function onSubmitLogin(event: FormSubmitEvent<SchemaLogin>) {
     signIn('credentials',event.data)
 }
 async function onSubmitRegister(event: FormSubmitEvent<SchemaReg>) {
-    console.log(event.data)
+    authStore.register(event.data)
 }
 
 </script>
@@ -81,7 +81,7 @@ async function onSubmitRegister(event: FormSubmitEvent<SchemaReg>) {
                             Зарегистрироваться
                         </div>
                     </template>
-                    <UForm :state="stateReg" :schema="schemaReg" class="space-y-4" @submit.prevent="onSubmitRegister">
+                    <UForm :state="stateReg" :schema="schemaReg" class="space-y-4" @submit="onSubmitRegister">
                         <UFormGroup label="E-Mail">
                             <UInput v-model="stateReg.email" type="email" placeholder="Введите email" />
                         </UFormGroup>
