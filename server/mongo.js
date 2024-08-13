@@ -8,4 +8,5 @@ const objects = MongoDBclient.db('testdb').collection('objects')
 const works = MongoDBclient.db('testdb').collection('works')
 const units = MongoDBclient.db('testdb').collection('units')
 const jobs = MongoDBclient.db('testdb').collection('jobs')
-export {MongoDBclient,users,attendanse,organization,objects,works,units,jobs}
+const auth = MongoDBclient.db('testdb').collection('auth')
+export {MongoDBclient,users,attendanse,organization,objects,works,units,jobs,auth}
