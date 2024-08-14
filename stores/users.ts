@@ -29,6 +29,7 @@ export const useUserStore = defineStore('users', () => {
     }
 
     async function addUser(user: any) {
+        console.log(user)
         try {
             const response = await $fetch("/api/users/add_user", {
                 method: 'POST',

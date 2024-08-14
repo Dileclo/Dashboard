@@ -71,6 +71,7 @@ async function onSubmitRegister(event: FormSubmitEvent<SchemaReg>) {
                             <UInput v-model="stateLogin.password" type="password" placeholder="Введите пароль" />
                         </UFormGroup>
                         <UButton label="Войти" type="submit" color="gray" />
+                        <UButton label="Войти с помощью GitHub" @click="signIn('github')" color="gray" />
                     </UForm>
                 </UCard>
             </template>

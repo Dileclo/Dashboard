@@ -63,7 +63,9 @@ const state = reactive({
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    usersStore.addUser(event.data)
+    const { signOut, data: session } = useAuth();
+
+    usersStore.addUser({...event.data,auth: session.value.user?.email })
     modal.close();
 }
 </script>

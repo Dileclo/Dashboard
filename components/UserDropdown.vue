@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <UDropdown class="w-full" :items="items" :popper="{ placement: 'bottom-start' }">
-            <UButton class="w-full" color="white" :label="session?.user?.name" trailing-icon="i-heroicons-chevron-down-20-solid" />
+            <UButton class="w-full" color="white" :label="session?.user?.name" icon="i-heroicons-chevron-down-20-solid" />
         </UDropdown>
     </div>
 </template>
@@ -10,7 +10,7 @@ const { signOut, data: session } = useAuth();
 
 const items = [
     [{
-        label: 'Profile',
+        label: 'Profiles',
         avatar: {
             src: 'https://avatars.githubusercontent.com/u/739984?v=4'
         }
