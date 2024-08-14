@@ -43,6 +43,6 @@ export const useUserStore = defineStore('users', () => {
         await fetchUsers();
 
     }
-
+ 
     return { people, fetchUsers, deleteUser, addUser }
 })

@@ -1,4 +1,5 @@
 import { MongoDBclient,users } from "~/server/mongo"
+import { useAuthStore } from "~/stores/auth"
 
 export default defineEventHandler(async (event) => {
     await MongoDBclient.connect()

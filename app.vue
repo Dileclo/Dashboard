@@ -6,14 +6,11 @@
   </div>
   <UModals />
   <UNotifications />
-
 </template>
 <script setup lang="ts">
 import { useSidebarStore } from "~/stores/sidebar"
 
 const modal = useModal()
-
-
 const sidebarStore = useSidebarStore();
 const router = useRouter()
 watch(
