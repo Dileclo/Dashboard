@@ -1,8 +1,8 @@
 import { MongoDBclient,users } from "~/server/mongo"
-import { useAuthStore } from "~/stores/auth"
 
 export default defineEventHandler(async (event) => {
     await MongoDBclient.connect()
+    console.log(await readBody(event))
     const u = await users.find().toArray()
     await MongoDBclient.close()
     return {users:u}

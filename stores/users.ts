@@ -3,10 +3,11 @@ import { defineStore } from 'pinia'
 export const useUserStore = defineStore('users', () => {
     const toast = useToast();
     const people = ref([])
+    const { signOut, data: session } = useAuth();
 
 
     async function fetchUsers() {
-        const response = await fetch('/api/users/get_users')
+        const response = await fetch('/api/users/get_users',{body:session.value.name})
         const data = await response.json()
         people.value = data.users
     }
