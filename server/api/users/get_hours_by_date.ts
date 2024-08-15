@@ -1,5 +1,7 @@
-import { MongoDBclient, users, attendanse, users } from "~/server/mongo"
+import { MongoDBclient, users, attendanse} from "~/server/mongo"
 import useDayjs from 'dayjs';
+import { getToken } from '#auth'
+
 import 'dayjs/locale/ru';
 const dayjs = useDayjs;
 dayjs.locale('ru');
@@ -10,11 +12,13 @@ const getDayOfMonth = (month, dateString) => {
 };
 
 export default defineEventHandler(async (event) => {
+    const token = await getToken({ event })
+    
     await MongoDBclient.connect();
     const body = await readBody(event);
     const currentMonth = dayjs(body).month();
-    const attendance = await attendanse.find({}).toArray();
-    const userList = await users.find({}).toArray();
+    const attendance = await attendanse.find({'auth':token?.email}).toArray();
+    const userList = await users.find({'auth':token?.email}).toArray();
 
     // Создаем объект для быстрого поиска полного имени по номеру телефона
     const userMap = userList.reduce((map, user) => {

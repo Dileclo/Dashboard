@@ -21,6 +21,7 @@ export default NuxtAuthHandler({
         CredentialsProvider.default({
             name: 'Credentials',
             async authorize(credentials: any) {
+                await MongoDBclient.connect()
                 const user = await auth.findOne({ 'email': credentials.email })
                 const isValid = await new Promise((resolve, reject) => {
                     bcrypt.compare(credentials.password, user.password, (err, res) => {

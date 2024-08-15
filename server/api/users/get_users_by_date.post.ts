@@ -1,12 +1,15 @@
 import { MongoDBclient, users, attendanse } from "~/server/mongo"
+import { getToken } from '#auth'
 
 export default defineEventHandler(async (event) => {
+    const token = await getToken({ event })
+
     await MongoDBclient.connect();
     const body = await readBody(event);
 
     try {
-        const userList = await users.find({}).toArray();
-        const attendanceList = await attendanse.find({ date: body.date }).toArray();
+        const userList = await users.find({'auth':token?.email}).toArray();
+        const attendanceList = await attendanse.find({ date: body.date,'auth':token?.email }).toArray();
 
         const combinedData = userList.map(user => {
             const userAttendance = attendanceList.find(att => att.phone.toString() === user.phone.toString());
