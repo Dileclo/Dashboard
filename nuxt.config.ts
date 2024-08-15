@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxt/ui", '@pinia/nuxt', 'dayjs-nuxt', "@sidebase/nuxt-auth"],
   auth: {
+    origin:"http://80.90.189.5/",
     globalAppMiddleware: true,
   },
 
