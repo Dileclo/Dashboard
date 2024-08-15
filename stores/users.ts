@@ -7,7 +7,7 @@ export const useUserStore = defineStore('users', () => {
 
 
     async function fetchUsers() {
-        const response = await fetch('/api/users/get_users',{body:session.value.name})
+        const response = await fetch('/api/users/get_users')
         const data = await response.json()
         people.value = data.users
     }
