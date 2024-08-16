@@ -57,6 +57,13 @@ const links = [[
     to: '/warehouse',
     icon: 'i-heroicons-cube'
 }
+],
+[
+    {
+        label:"Профнастил",
+        to:"/proflist",
+        icon:"i-heroicons-square-3-stack-3d"
+    }
 ]]
 
 </script>
