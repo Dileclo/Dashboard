@@ -1,7 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", '@pinia/nuxt', 'dayjs-nuxt', "@sidebase/nuxt-auth"],
+  modules: [
+    "@nuxt/ui",
+    '@pinia/nuxt',
+    'dayjs-nuxt',
+    "@sidebase/nuxt-auth",
+  ],
   auth: {
     baseURL: process.env.AUTH_ORIGIN,
     globalAppMiddleware: true,
