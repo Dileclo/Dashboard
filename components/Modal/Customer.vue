@@ -1,5 +1,5 @@
 <template>
-    <UModal fullscreen>
+    <UModal >
         <UCard :ui="{
             base: 'h-full flex flex-col',
             rounded: '',
@@ -31,10 +31,11 @@
                             <UFormGroup label="Номер телефона" class="w-full" name="phone">
                                 <UInput v-model="stateIndividual.phone" />
                             </UFormGroup>
-                            <UFormGroup label="Примечание" class="w-full" name="description">
-                                <UTextarea v-model="stateIndividual.description" />
-                            </UFormGroup>
+
                         </div>
+                        <UFormGroup label="Примечание" class="w-full" name="description">
+                            <UTextarea v-model="stateIndividual.description" />
+                        </UFormGroup>
                         <UButton type="submit">
                             Добавить
                         </UButton>
@@ -44,21 +45,28 @@
                     <UForm :schema="schemaOrg" :state="stateOrg" class="space-y-4" @submit="onSubmitOrg">
                         <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4">
                             <UFormGroup label="Название организации" class="w-full" name="surname">
-                                <UInput v-model="stateOrg.surname" />
+                                <UInput v-model="stateOrg.label" />
                             </UFormGroup>
                             <UFormGroup label="Номер телефона" class="w-full" name="name">
-                                <UInput v-model="stateOrg.name" />
+                                <UInput v-model="stateOrg.phone" />
                             </UFormGroup>
                             <UFormGroup label="ИНН" class="w-full" name="second_name">
-                                <UInput v-model="stateOrg.second_name" />
+                                <UInput v-model="stateOrg.inn" />
                             </UFormGroup>
                             <UFormGroup label="Адрес" class="w-full" name="phone">
                                 <UInput v-model="stateOrg.phone" />
                             </UFormGroup>
-                            <UFormGroup label="Примечание" class="w-full" name="description">
-                                <UTextarea v-model="stateOrg.description" />
+                            <UFormGroup label="Контактное лицо (ФИО)" class="w-full" name="phone">
+                                <UInput v-model="stateOrg.contact" />
                             </UFormGroup>
+                            <UFormGroup label="Email" class="w-full" name="email">
+                                <UInput v-model="stateOrg.email" />
+                            </UFormGroup>
+
                         </div>
+                        <UFormGroup label="Примечание" class="w-full" name="description">
+                            <UTextarea v-model="stateOrg.description" />
+                        </UFormGroup>
                         <UButton type="submit">
                             Добавить
                         </UButton>
@@ -113,11 +121,12 @@ const schemaOrg = object({
 type SchemaOrg = InferType<typeof schemaOrg>;
 
 const stateOrg = reactive({
-    surname: undefined,
-    name: undefined,
-    second_name: undefined,
+    Label: undefined,
+    inn: undefined,
+    contact: undefined,
     phone: undefined,
     description: undefined,
+    email:undefined,
     creadted_at: dayjs().format("DD MM YYYY HH:mm"),
     auth: undefined
 });
