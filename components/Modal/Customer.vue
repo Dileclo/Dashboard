@@ -77,6 +77,7 @@
     </UModal>
 </template>
 <script setup lang="ts">
+
 const tabs = [{
     slot: 'individual',
     label: 'Физ. лицо'
@@ -104,12 +105,14 @@ const stateIndividual = reactive({
     name: undefined,
     second_name: undefined,
     phone: undefined,
+    type:"individual",
     description: undefined,
     creadted_at: dayjs().format("DD MM YYYY HH:mm"),
     auth: undefined
 });
 
 async function onSubmit(event: FormSubmitEvent<SchemaIndividual>) {
+    customerStore.isOpen = false
 }
 const schemaOrg = object({
 
@@ -124,6 +127,7 @@ const stateOrg = reactive({
     Label: undefined,
     inn: undefined,
     contact: undefined,
+    type:"organization",
     phone: undefined,
     description: undefined,
     email:undefined,

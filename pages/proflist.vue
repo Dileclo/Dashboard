@@ -10,6 +10,9 @@
 
 </template>
 <script setup lang='ts'>
+useSeoMeta({
+    title:"Торговля"
+})
 import { ModalOrder } from '#components';
 const modal = useModal()
 </script>
