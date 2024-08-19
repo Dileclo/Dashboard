@@ -1,5 +1,5 @@
 <template>
-    <UModal >
+    <UModal>
         <UCard :ui="{
             base: 'h-full flex flex-col',
             rounded: '',
@@ -105,38 +105,43 @@ const stateIndividual = reactive({
     name: undefined,
     second_name: undefined,
     phone: undefined,
-    type:"individual",
+    type: "individual",
     description: undefined,
     creadted_at: dayjs().format("DD MM YYYY HH:mm"),
     auth: undefined
 });
 
 async function onSubmit(event: FormSubmitEvent<SchemaIndividual>) {
-    customerStore.isOpen = false
+    customerStore.addCustomer(event.data)
 }
 const schemaOrg = object({
 
-    surname: string().required("Обязательное поле"),
-    name: string().required("Обязательное поле"),
-    second_name: string().required("Обязательное поле"),
+    inn: string().required("Обязательное поле"),
+    label: string().required("Обязательное поле"),
+    contact: string().required("Обязательное поле"),
     phone: string().required("Обязательное поле"),
 });
 type SchemaOrg = InferType<typeof schemaOrg>;
 
 const stateOrg = reactive({
-    Label: undefined,
+    label: undefined,
     inn: undefined,
     contact: undefined,
-    type:"organization",
+    type: "organization",
     phone: undefined,
     description: undefined,
-    email:undefined,
+    email: undefined,
     creadted_at: dayjs().format("DD MM YYYY HH:mm"),
     auth: undefined
 });
 
 async function onSubmitOrg(event: FormSubmitEvent<SchemaOrg>) {
+    customerStore.addCustomer(event.data)
 }
+
+onMounted(()=>{
+    customerStore.fetchCustomer()
+})
 
 
 </script>

@@ -21,9 +21,9 @@
 
                     <UFormGroup label="Клиент" class="w-full" name="customer">
                         <div class="flex gap-4 w-full">
-                            <USelectMenu searchable v-model="state.customer" class="w-full" :options="customers">
-                            </USelectMenu>
-                            <UButton label="+" color="gray" @click="customerStore.isOpen=true" />
+                            <USelectMenu option-attribute="label" :search-attributes="['label', 'phone']" searchable
+                                v-model="state.customer" class="w-full" :options="customerStore.customers" />
+                            <UButton label="+" color="gray" @click="customerStore.isOpen = true" />
                         </div>
                     </UFormGroup>
 
@@ -34,7 +34,7 @@
                 </UButton>
             </UForm>
         </UCard>
-        <ModalCustomer v-model="customerStore.isOpen"/>
+        <ModalCustomer v-model="customerStore.isOpen" />
     </UModal>
 </template>
 <script setup lang="ts">
