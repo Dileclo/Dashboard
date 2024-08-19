@@ -17,23 +17,27 @@
             </template>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-                <div class="grid grid-cols-2 max-md:grid-cols-1 gap-4">
+                <UFormGroup label="Номер заказа">
+                    <UInput v-model="state.order_id" disabled />
+                </UFormGroup>
+                <UFormGroup label="Клиент" class="w-full" name="customer">
+                    <div class="flex gap-4 w-full">
+                        <USelectMenu searchable v-model="state.customer" class="w-full"
+                            :options="customerStore.customers" />
 
-                    <UFormGroup label="Клиент" class="w-full" name="customer">
-                        <div class="flex gap-4 w-full">
-                            <USelectMenu searchable v-model="state.customer" class="w-full"
-                                :options="customerStore.customers" />
+                        <UButton label="+" color="gray" @click="customerStore.isOpen = true" />
+                    </div>
+                </UFormGroup>
+                <UFormGroup label="Адрес доставки">
+                    <VueDadata class="p-0" v-model="state.address" token="20defa76b6273253c20e0213cb383ddfe51c60aa" />
 
-                            <UButton label="+" color="gray" @click="customerStore.isOpen = true" />
-                        </div>
-                    </UFormGroup>
-                    <UFormGroup label="Адрес доставки">
-                        <VueDadata class="p-0" v-model="state.address" token="20defa76b6273253c20e0213cb383ddfe51c60aa"/>
-                        
-                    </UFormGroup>
+                </UFormGroup>
+                <UFormGroup label="Состав заказа">
+                    <UButton label="+" color="gray"/>
+                    <UTable></UTable>
+                </UFormGroup>
 
 
-                </div>
                 <UButton type="submit">
                     Добавить
                 </UButton>
@@ -53,13 +57,14 @@ const query = ref()
 const dayjs = useDayjs()
 const router = useRoute()
 const schema = object({
-    customer: object().required(),
+    customer: object().required("Обязательное поле"),
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
     customer: undefined,
-    address:undefined
+    address: undefined,
+    order_id: 1
 });
 
 const customers = ref([])
