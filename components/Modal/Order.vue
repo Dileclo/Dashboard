@@ -21,8 +21,9 @@
 
                     <UFormGroup label="Клиент" class="w-full" name="customer">
                         <div class="flex gap-4 w-full">
-                            <USelectMenu option-attribute="label" :search-attributes="['label', 'phone']" searchable
-                                v-model="state.customer" class="w-full" :options="customerStore.customers" />
+                            <USelectMenu searchable v-model="state.customer" class="w-full"
+                                :options="customerStore.customers" />
+
                             <UButton label="+" color="gray" @click="customerStore.isOpen = true" />
                         </div>
                     </UFormGroup>
@@ -45,17 +46,12 @@ const modal = useModal()
 const dayjs = useDayjs()
 const router = useRoute()
 const schema = object({
-    name_job: string().required("Обязательное поле"),
-    unit: object().required("Обязтаельнео поле"),
-    volume: number().required("Обязательное поле")
+    customer: object().required(),
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
     customer: undefined,
-    unit: undefined,
-    volume: undefined,
-    date: dayjs().format("DD MM YYYY HH:mm")
 });
 
 const customers = ref([])

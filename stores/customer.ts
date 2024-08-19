@@ -16,7 +16,9 @@ export const useCustomerStore = defineStore('customer', () => {
     }
     const fetchCustomer = async () =>{
         const r = await fetch('/api/customer/fetch_all')
-        customers.value = r.json()
+        const data = await r.json()
+        console.log(data)
+        customers.value = data.resp
     }
 
     return {customers,isOpen,addCustomer,fetchCustomer}
