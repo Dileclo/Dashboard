@@ -50,11 +50,15 @@
                             <UFormGroup label="Номер телефона" class="w-full" name="name">
                                 <UInput v-model="stateOrg.phone" />
                             </UFormGroup>
+
                             <UFormGroup label="ИНН" class="w-full" name="second_name">
-                                <UInput v-model="stateOrg.inn" />
+                                <div class="flex gap-4">
+                                    <UInput v-model="stateOrg.inn" class="w-full" />
+                                    <UButton label="Заполнить" @click="fill_by_inn" />
+                                </div>
                             </UFormGroup>
                             <UFormGroup label="Адрес" class="w-full" name="phone">
-                                <UInput v-model="stateOrg.phone" />
+                                <UInput v-model="stateOrg.address" />
                             </UFormGroup>
                             <UFormGroup label="Контактное лицо (ФИО)" class="w-full" name="phone">
                                 <UInput v-model="stateOrg.contact" />
@@ -131,6 +135,7 @@ const stateOrg = reactive({
     phone: undefined,
     description: undefined,
     email: undefined,
+    address: undefined,
     creadted_at: dayjs().format("DD MM YYYY HH:mm"),
     auth: undefined
 });
@@ -139,7 +144,30 @@ async function onSubmitOrg(event: FormSubmitEvent<SchemaOrg>) {
     customerStore.addCustomer(event.data)
 }
 
-onMounted(()=>{
+const fill_by_inn = async () => {
+    var inn = stateOrg.inn;
+    var url = "http://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
+    var token = "20defa76b6273253c20e0213cb383ddfe51c60aa";
+    var options = {
+        method: "POST",
+        mode: 'cors',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Token " + token
+        },
+        body: JSON.stringify({ query: inn })
+    }
+    const res = await $fetch(url, options).then((r) => {
+        console.log(r.suggestions[0])
+        stateOrg.label = r.suggestions[0].value
+        stateOrg.address = r.suggestions[0].data.address.value
+    })
+
+}
+
+
+onMounted(() => {
     customerStore.fetchCustomer()
 })
 

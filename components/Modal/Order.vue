@@ -27,6 +27,10 @@
                             <UButton label="+" color="gray" @click="customerStore.isOpen = true" />
                         </div>
                     </UFormGroup>
+                    <UFormGroup label="Адрес доставки">
+                        <VueDadata class="p-0" v-model="state.address" token="20defa76b6273253c20e0213cb383ddfe51c60aa"/>
+                        
+                    </UFormGroup>
 
 
                 </div>
@@ -39,10 +43,13 @@
     </UModal>
 </template>
 <script setup lang="ts">
+import { VueDadata } from 'vue-dadata';
+import 'vue-dadata/dist/style.css';
 import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const customerStore = useCustomerStore()
 const modal = useModal()
+const query = ref()
 const dayjs = useDayjs()
 const router = useRoute()
 const schema = object({
@@ -52,12 +59,12 @@ type Schema = InferType<typeof schema>;
 
 const state = reactive({
     customer: undefined,
+    address:undefined
 });
 
 const customers = ref([])
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     console.log(event.data)
-    jobStore.addJob(event.data, router.params)
     modal.close()
 }
 
