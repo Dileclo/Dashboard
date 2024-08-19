@@ -53,9 +53,7 @@ import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const customerStore = useCustomerStore()
 const modal = useModal()
-const query = ref()
-const dayjs = useDayjs()
-const router = useRoute()
+
 const schema = object({
     customer: object().required("Обязательное поле"),
 });
@@ -71,10 +69,6 @@ const customers = ref([])
 async function onSubmit(event: FormSubmitEvent<Schema>) {
     console.log(event.data)
     modal.close()
-}
-
-const addClient = (q) => {
-    console.log("Hello world")
 }
 
 </script>
