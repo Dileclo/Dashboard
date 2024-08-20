@@ -32,18 +32,37 @@
                     <VueDadata class="p-0" v-model="state.address" token="20defa76b6273253c20e0213cb383ddfe51c60aa" />
 
                 </UFormGroup>
+                <UFormGroup label="Наименование" name="name_object">
+                    <div class="flex gap-4">
+                        <USelectMenu :options="unitStore.units" v-model="state.unit" class="w-full" searchable />
+                        <UButton label="+" color="gray" @click="unitStore.isOpen = true" />
+                    </div>
+                </UFormGroup>
+                <UFormGroup label="Количество" name="name_object">
+                    <UInput />
+                </UFormGroup>
+                <UFormGroup label="Ед.изм" name="name_object">
+                    <div class="flex gap-4">
+                        <USelectMenu :options="unitStore.units" v-model="state.unit" class="w-full" searchable />
+                        <UButton label="+" color="gray" @click="unitStore.isOpen = true" />
+                    </div>
+                </UFormGroup>
+                <UFormGroup>
+                    <UButton label="Добавить товар" color="gray" />
+                </UFormGroup>
                 <UFormGroup label="Состав заказа">
-                    <UButton label="+" color="gray"/>
                     <UTable></UTable>
                 </UFormGroup>
 
 
                 <UButton type="submit">
-                    Добавить
+                    Создать заказ
                 </UButton>
             </UForm>
         </UCard>
         <ModalCustomer v-model="customerStore.isOpen" />
+        <IspDocUnitModal v-model="unitStore.isOpen" />
+
     </UModal>
 </template>
 <script setup lang="ts">
@@ -52,8 +71,10 @@ import 'vue-dadata/dist/style.css';
 import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const customerStore = useCustomerStore()
+const orderStore = useOrderStore()
+const unitStore = useUnitStore()
 const modal = useModal()
-
+const dayjs = useDayjs()
 const schema = object({
     customer: object().required("Обязательное поле"),
 });
@@ -62,12 +83,13 @@ type Schema = InferType<typeof schema>;
 const state = reactive({
     customer: undefined,
     address: undefined,
-    order_id: 1
+    order_id: await orderStore.get_order_id() + 1,
+    created_at: dayjs().format("DD MM YYYY HH:mm"),
 });
 
 const customers = ref([])
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(event.data)
+    orderStore.addOrder(event.data)
     modal.close()
 }
 

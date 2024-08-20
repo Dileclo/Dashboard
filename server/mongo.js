@@ -10,4 +10,5 @@ const units = MongoDBclient.db('testdb').collection('units')
 const jobs = MongoDBclient.db('testdb').collection('jobs')
 const auth = MongoDBclient.db('testdb').collection('auth')
 const customer = MongoDBclient.db('testdb').collection('customer')
-export {MongoDBclient,users,attendanse,organization,objects,works,units,jobs,auth,customer}
+const order = MongoDBclient.db('testdb').collection('order')
+export {MongoDBclient,users,attendanse,organization,objects,works,units,jobs,auth,customer,order}
