@@ -40,6 +40,9 @@
                         <UButton label="+" color="gray" @click="materialStore.isOpen = true" />
                     </div>
                 </UFormGroup>
+                <UFormGroup label="Длина, мм" name="name_object">
+                        <UInput v-model="state.length" />
+                    </UFormGroup>
                 <UFormGroup label="Количество" name="name_object">
                     <UInput v-model="state.count" />
                 </UFormGroup>
@@ -88,7 +91,8 @@ const state = reactive({
     created_at: dayjs().format("DD MM YYYY HH:mm"),
     unit: undefined,
     material: undefined,
-    count: undefined
+    count: undefined,
+    length: undefined
 });
 const columns = [{
     key:'id',
@@ -96,6 +100,10 @@ const columns = [{
 },{
     key: 'material',
     label: 'Наименование'
+},
+{
+    key: 'length',
+    label: 'Длина,мм'
 },
 {
     key: 'unit',
@@ -127,13 +135,15 @@ const addToBucket = () => {
         unit: state.unit.label,
         count: state.count,
         price:state.material.price,
-        total: Number(state.material.price)*Number(state.count)
+        total: Number(state.material.price)*Number(state.count)*(Number(state.length)/1000),
+        length:state.length
     }
     console.log(data)
     bucket.value.push(data)
     state.material = undefined
     state.unit = undefined
     state.count = undefined
+    state.length = undefined
 }
 
 onMounted(async () => {
