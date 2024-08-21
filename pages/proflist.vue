@@ -46,6 +46,10 @@ const columns = [{
     key: "total_price",
     label: "Сумма"
 },
+{
+    key: 'status',
+    label: "Состояние заказа"
+},
 { key: "actions" }]
 const q = ref('');
 const filteredRows = computed(() => {

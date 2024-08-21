@@ -130,7 +130,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 const addToBucket = () => {
     const data = {
-        id: 1,
+        id: bucket.value.length+1,
         material: state.material.label,
         unit: state.unit.label,
         count: state.count,
