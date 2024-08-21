@@ -10,10 +10,13 @@ export const useOrderStore = defineStore('order', () => {
         const resp = await res.json()
         console.log(resp)
         const order = resp.o.map(item => {
+            let color = ""
             const total_price = item.bucket.reduce((acc, curr) => acc + curr.total, 0)
-
+            if(item.status==="Получен"){
+                color = 'bg-yellow-500/40'
+            }
             return {
-                ...item, customer: item.customer.label, total_price, class: 'bg-green-500/40'
+                ...item, customer: item.customer.label, total_price, class: color
             }
         })
         console.log(order)
@@ -41,9 +44,9 @@ export const useOrderStore = defineStore('order', () => {
         }
     }
 
-    const addOrder = (data) => {
+    const addOrder = async (data) => {
         const res = fetch('/api/order/add', { method: 'POST', body: JSON.stringify(data) })
-        fetchOrder()
+        await fetchOrder()
     }
 
     return { get_order_id, addOrder, fetchOrder, orders, fetchOrderById,isLoading }

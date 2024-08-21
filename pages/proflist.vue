@@ -10,7 +10,9 @@
             <UInput v-model="q" placeholder="Поиск..." />
         </template>
     </Navbar>
-    <UTable :columns="columns" :rows="filteredRows">
+    <UTable :loading="orederStore.isLoading"
+        :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }"
+        :progress="{ color: 'primary', animation: 'carousel' }" :columns="columns" :rows="filteredRows">
         <template #actions-data="{ row }">
             <UDropdown :items="items(row)">
                 <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />

@@ -6,6 +6,6 @@ export default defineEventHandler(async (event) => {
 
     await MongoDBclient.connect()
     const res = await material.find({'auth':token?.email}).toArray()
-    await MongoDBclient.close()
+    
     return { o: res }
 })

@@ -124,7 +124,7 @@ const columns = [{
 const customers = ref([])
 const bucket = ref([])
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    orderStore.addOrder({ ...event.data, bucket: bucket.value })
+    orderStore.addOrder({ ...event.data, bucket: bucket.value,status:"Получен" })
     modal.close()
 }
 
