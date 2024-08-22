@@ -1,7 +1,7 @@
 <template>
     <Navbar :links="[{ label: 'Профнастил', to: '/proflist' }, { label: 'Заказ № ' + router.params.id }]">
         <template #second>
-
+            <UButton label="Печать заказа" color="gray"/>
         </template>
 
     </Navbar>

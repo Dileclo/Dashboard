@@ -46,7 +46,8 @@ const columns = [{
 },
 {
     key: "total_price",
-    label: "Сумма"
+    label: "Сумма",
+    sortable:true
 },
 {
     key: 'status',

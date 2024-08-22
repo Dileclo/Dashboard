@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 export const useOrderStore = defineStore('order', () => {
     const orders = ref([])
     const isLoading = ref(false)
-
+    const dayjs = useDayjs()
     const fetchOrder = async () => {
         isLoading.value = true
         const res = await fetch('/api/order/fetch')
@@ -12,8 +12,11 @@ export const useOrderStore = defineStore('order', () => {
         const order = resp.o.map(item => {
             let color = ""
             const total_price = item.bucket.reduce((acc, curr) => acc + curr.total, 0)
-            if(item.status==="Получен"){
+            if (item.status === "Получен") {
                 color = 'bg-yellow-500/40'
+            }
+            if (item.status === "Готово") {
+                color = 'bg-green-500/60'
             }
             return {
                 ...item, customer: item.customer.label, total_price, class: color
@@ -49,5 +52,10 @@ export const useOrderStore = defineStore('order', () => {
         await fetchOrder()
     }
 
-    return { get_order_id, addOrder, fetchOrder, orders, fetchOrderById,isLoading }
+    const acceptOrder = async (order_id, status) => {
+        const res = fetch('/api/order/accept', { method: 'POST', body: JSON.stringify({ order_id, status }) })
+        await fetchOrder()
+    }
+
+    return { get_order_id, addOrder, fetchOrder, orders, fetchOrderById, isLoading, acceptOrder }
 })
