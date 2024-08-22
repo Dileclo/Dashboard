@@ -12,7 +12,11 @@ export const useMaterialStore = defineStore('material', () => {
     const fetchMaterial = async () => {
         const res = await fetch('/api/material/fetch')
         const resp = await res.json()
-        materials.value = resp.o
+        console.log(resp.o)
+        const result = resp.o.map((item) => {
+            return {...item, label: item.title+" "+ item.thickness}
+        })
+        materials.value = result
     }
     return { materials, isOpen, addMaterial, fetchMaterial }
 

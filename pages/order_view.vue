@@ -23,7 +23,11 @@
                                 <div>Номер телефона:</div>
                                 <UBadge color="gray">{{ item.customer }}</UBadge>
                             </span>
-                            <UTable :rows="item.bucket" />
+                            <span class="font-medium justify-between w-full flex">
+                                <div>Адрес доставки:</div>
+                                <UBadge color="gray">{{ item.address }}</UBadge>
+                            </span>
+                            <UTable :columns="columns" :rows="item.bucket" />
                             <UButton @click="orderStore.acceptOrder(item.order_id, 'В работе')" size="xl"
                                 v-if="item.status === 'Получен'" label="ПРИНЯТЬ" />
                             <UButton @click="orderStore.acceptOrder(item.order_id, 'Готово')" size="xl"
@@ -67,6 +71,40 @@ const items = [
         label: "Архив",
         slot: 'archive'
     }
+]
+
+const columns = [{
+    key: 'id',
+    label: "#"
+},
+{
+    key: "material",
+    label: "Материал"
+},
+{
+    key: "thickness",
+    label: "Толщина"
+},
+{
+    key: "color",
+    label: "Цвет"
+},
+{
+    key: "length",
+    label: "Длина, мм"
+},
+{
+    key: "count",
+    label: "Кол-во"
+},
+{
+    key: "price",
+    label: "Цена"
+},
+{
+    key: "total",
+    label: "Сумма"
+},
 ]
 const orderStore = useOrderStore()
 definePageMeta({

@@ -135,6 +135,8 @@ const addToBucket = () => {
         unit: state.unit.label,
         count: state.count,
         price:state.material.price,
+        thickness:state.material.thickness,
+        color:state.material.color,
         total: Number(state.material.price)*Number(state.count)*(Number(state.length)/1000),
         length:state.length
     }

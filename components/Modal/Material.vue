@@ -17,10 +17,16 @@
             </template>
 
             <UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
-                <UFormGroup label="Наименование" name="unit">
-                    <UInput v-model="state.label" />
+                <UFormGroup label="Наименование" name="name">
+                    <UInput v-model="state.title" />
                 </UFormGroup>
-                <UFormGroup label="Цена" name="unit">
+                <UFormGroup label="Цвет" name="color">
+                    <UInput v-model="state.color" />
+                </UFormGroup>
+                <UFormGroup label="Толщина" name="color">
+                    <UInput v-model="state.thickness" />
+                </UFormGroup>
+                <UFormGroup label="Цена" name="price">
                     <UInput v-model="state.price" />
                 </UFormGroup>
                 <UButton type="submit">
@@ -31,19 +37,21 @@
     </UModal>
 </template>
 <script setup lang="ts">
-import { object, string, date,number, type InferType } from 'yup';
+import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const modal = useModal()
 const materialStore = useMaterialStore()
 const schema = object({
-    label: string().required("Обязательное поле"),
+    title: string().required("Обязательное поле"),
     price: string().required("Обязательное поле")
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
-    label: undefined,
-    price: undefined
+    title: undefined,
+    price: undefined,
+    color: undefined,
+    thickness: undefined
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
