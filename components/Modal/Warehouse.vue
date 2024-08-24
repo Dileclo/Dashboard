@@ -9,10 +9,10 @@
             <template #header>
                 <div class="flex items-center justify-between">
                     <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-                        Добавить материал
+                        Добавить склад 
                     </h3>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-                        @click="materialStore.isOpen = false" />
+                        @click="modal.close" />
                 </div>
             </template>
 
@@ -20,23 +20,8 @@
                 <UFormGroup label="Наименование" name="name">
                     <UInput v-model="state.title" />
                 </UFormGroup>
-                <UFormGroup label="Цвет" name="color">
-                    <UInput v-model="state.color" />
-                </UFormGroup>
-                <UFormGroup label="Толщина" name="color">
-                    <UInput type="number" v-model="state.thickness" />
-                </UFormGroup>
-                <UFormGroup label="Количество" name="count">
-                    <UInput type="number" v-model="state.count" />
-                </UFormGroup>
-                <UFormGroup label="Вес" name="weight">
-                    <UInput type="number" v-model="state.weight" />
-                </UFormGroup>
-                <UFormGroup label="Цена" name="price">
-                    <UInput type="number" v-model="state.price" />
-                </UFormGroup>
-                <UFormGroup label="Сумма" name="price">
-                    <UInput type="number" v-model="total" />
+                <UFormGroup label="Адрес" name="address">
+                    <UInput v-model="state.address" />
                 </UFormGroup>
                 <UButton type="submit">
                     Добавить
@@ -48,28 +33,28 @@
 <script setup lang="ts">
 import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
+const warehouseStore = useWarehouseStore()
 const modal = useModal()
 const materialStore = useMaterialStore()
 const dayjs = useDayjs();
 const schema = object({
     title: string().required("Обязательное поле"),
-    price: string().required("Обязательное поле")
+    address: string().required("Обязательное поле")
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
     title: undefined,
-    price: undefined,
-    color: undefined,
-    thickness: undefined,
-    count: undefined,
-    weight: undefined,
+    address: undefined,
     created_at: dayjs().format("DD MM YYYY HH:mm")
 });
-const total = computed(() => state.weight * state.price);
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(total)
+    warehouseStore.addWarehouse(event.data)
 }
+
+onMounted(() => {
+    warehouseStore.getWarehouse()
+})
 
 </script>
