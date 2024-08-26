@@ -25,6 +25,6 @@ export const useWarehouseStore = defineStore("warehouse", () => {
   }
 
   return {
-    warehouse,getWarehouse,addWarehouse
+    warehouse,getWarehouse,addWarehouse,loading
   };
 });
