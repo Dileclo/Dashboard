@@ -89,7 +89,7 @@ const schema = object({
     weight: string().required("Обязательное поле"),
     color: string().required("Обязательное поле"),
     thickness: string().required("Обязательное поле"),
-    type: string().required("Выберите тип материала"),
+    type: object().required("Выберите тип материала"),
 
 });
 type Schema = InferType<typeof schema>;
@@ -109,7 +109,7 @@ const state = reactive({
 const total = computed(() => state.weight * state.price);
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    console.log(total)
+    materialStore.addMaterial(event.data)
 }
 
 </script>

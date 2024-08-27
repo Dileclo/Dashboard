@@ -56,7 +56,7 @@ const columns = [{
     sortable: true
 },
 {
-    key: 'warehouse',
+    key: 'warehouse.title',
     label: 'Склад',
 },
 {
