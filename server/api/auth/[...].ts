@@ -1,5 +1,6 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import GithubProvider from 'next-auth/providers/github'
+import Yandex from 'next-auth/providers/yandex'
 import { NuxtAuthHandler } from '#auth'
 import { MongoDBclient, auth } from "~/server/mongo"
 import bcrypt from "bcrypt"
@@ -13,6 +14,11 @@ export default NuxtAuthHandler({
     },
     providers: [
         // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+        Yandex.default({
+            clientId: 'b0ae913479884befa204595a9922803e',
+            clientSecret: '44dc8e6ec87245768b5c149a676f2c1d',
+        
+        }),
         GithubProvider.default({
             clientId: 'Ov23li8LSMqOAvVd5uF8',
             clientSecret: '487331b1585f45d868c0606c6a65675412c954ac'

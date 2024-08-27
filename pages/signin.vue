@@ -72,6 +72,7 @@ async function onSubmitRegister(event: FormSubmitEvent<SchemaReg>) {
                         </UFormGroup>
                         <UButton label="Войти" type="submit" color="gray" />
                         <UButton label="Войти с помощью GitHub" @click="signIn('github')" color="gray" />
+                        <UButton label="Войти с помощью Yandex" @click="signIn('yandex')" color="gray" />
                     </UForm>
                 </UCard>
             </template>

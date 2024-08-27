@@ -1,5 +1,5 @@
 <template>
-    <UModal fullscreen>
+    <UModal>
         <UCard :ui="{
             base: 'h-full flex flex-col',
             rounded: '',
@@ -12,7 +12,7 @@
                         Добавить материал
                     </h3>
                     <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1"
-                        @click="materialStore.isOpen = false" />
+                        @click="modal.close()" />
                 </div>
             </template>
 
@@ -20,16 +20,39 @@
                 <UFormGroup label="Наименование" name="name">
                     <UInput v-model="state.title" />
                 </UFormGroup>
-                <UFormGroup label="Цвет" name="color">
-                    <UInput v-model="state.color" />
-                </UFormGroup>
-                <UFormGroup label="Толщина" name="color">
-                    <UInput type="number" v-model="state.thickness" />
-                </UFormGroup>
-                <UFormGroup label="Количество" name="count">
-                    <UInput type="number" v-model="state.count" />
-                </UFormGroup>
-                <UFormGroup label="Вес" name="weight">
+                <div class="flex justify-between w-full gap-4">
+                    <UFormGroup label="Тип материала" class="w-full" name="type">
+                        <USelectMenu v-model="state.type" :options="types" />
+                    </UFormGroup>
+
+                    <UFormGroup label="Склад" class="w-full" name="warehouse">
+                        <div class="flex gap-4 w-full">
+                            <USelectMenu option-attribute="title" v-model="state.warehouse" class="w-full"
+                                :options="warehouseStore.warehouse" />
+                            <UButton label="+" color="gray" @click="warehouseStore.isOpen = true" />
+
+                        </div>
+                    </UFormGroup>
+                </div>
+
+                <div class="flex justify-between w-full gap-4">
+                    <UFormGroup label="Цвет RAL" class="w-full" name="color">
+                        <UInput v-model="state.color" />
+                    </UFormGroup>
+                    <UFormGroup label="Толщина" class="w-full" name="thickness">
+                        <UInput type="number" v-model="state.thickness" />
+                    </UFormGroup>
+                </div>
+                <div class="flex justify-between w-full gap-4">
+
+                    <UFormGroup label="Длина, м" class="w-full" name="length">
+                        <UInput type="number" v-model="state.length" />
+                    </UFormGroup>
+                    <UFormGroup label="Количество, шт" class="w-full" name="count">
+                        <UInput type="number" v-model="state.count" />
+                    </UFormGroup>
+                </div>
+                <UFormGroup label="Вес, т" name="weight">
                     <UInput type="number" v-model="state.weight" />
                 </UFormGroup>
                 <UFormGroup label="Цена" name="price">
@@ -43,6 +66,7 @@
                 </UButton>
             </UForm>
         </UCard>
+        <ModalWarehouse v-model="warehouseStore.isOpen" />
     </UModal>
 </template>
 <script setup lang="ts">
@@ -50,20 +74,36 @@ import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const modal = useModal()
 const materialStore = useMaterialStore()
+const warehouseStore = useWarehouseStore()
 const dayjs = useDayjs();
+const types = [
+    { label: 'Проф.труба', value: 'tube' },
+    { label: 'Профлист', value: 'proflist' },
+    { label: 'Лист металла', value: 'metal_sheet' },
+    { label: 'Саморезы', value: 'screw' },
+    { label: 'Другое', value: 'other' },
+]
 const schema = object({
     title: string().required("Обязательное поле"),
-    price: string().required("Обязательное поле")
+    price: string().required("Обязательное поле"),
+    weight: string().required("Обязательное поле"),
+    color: string().required("Обязательное поле"),
+    thickness: string().required("Обязательное поле"),
+    type: string().required("Выберите тип материала"),
+
 });
 type Schema = InferType<typeof schema>;
 
 const state = reactive({
     title: undefined,
+    type: undefined,
     price: undefined,
     color: undefined,
     thickness: undefined,
-    count: undefined,
+    length: undefined,
     weight: undefined,
+    count: undefined,
+    warehouse: undefined,
     created_at: dayjs().format("DD MM YYYY HH:mm")
 });
 const total = computed(() => state.weight * state.price);

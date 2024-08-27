@@ -4,6 +4,7 @@ export const useWarehouseStore = defineStore("warehouse", () => {
   const warehouse = ref([]);
   const loading = ref(false);
   const toast = useToast();
+  const isOpen = ref(false);
 
   const getWarehouse = async () => {
     loading.value = true;
@@ -25,6 +26,6 @@ export const useWarehouseStore = defineStore("warehouse", () => {
   }
 
   return {
-    warehouse,getWarehouse,addWarehouse,loading
+    warehouse,getWarehouse,addWarehouse,loading,isOpen
   };
 });

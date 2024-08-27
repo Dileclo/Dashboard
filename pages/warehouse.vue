@@ -56,8 +56,24 @@ const columns = [{
     sortable: true
 },
 {
-    key: 'address',
-    label: 'Адрес',
+    key: 'warehouse',
+    label: 'Склад',
+},
+{
+    key:"thickness",
+    label:"Толщина"
+},
+{
+    key:"color",
+    label:"Цвет"
+},
+{
+    key:"length",
+    label:"Длина"
+},
+{
+    key:"weight",
+    label:"Вес"
 },
 {
     key: 'actions'
