@@ -109,7 +109,8 @@ const state = reactive({
 const total = computed(() => state.weight * state.price);
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    materialStore.addMaterial(event.data)
+    await materialStore.addMaterial(event.data)
+    modal.close()
 }
 
 </script>

@@ -40,10 +40,16 @@
                         <UButton label="+" color="gray" @click="materialStore.isOpen = true" />
                     </div>
                 </UFormGroup>
-                <UFormGroup label="Длина, мм" name="name_object">
-                        <UInput v-model="state.length" />
-                    </UFormGroup>
-                <UFormGroup label="Количество" name="name_object">
+                <UFormGroup label="Цвет" name="color">
+                    <USelectMenu searchable v-model="state.color" :options="colors" />
+                </UFormGroup>
+                <UFormGroup label="Толщина" name="thickness">
+                    <USelectMenu searchable v-model="state.thickness" :options="thickness" />
+                </UFormGroup>
+                <UFormGroup label="Длина, мм" name="length">
+                    <UInput v-model="state.length" />
+                </UFormGroup>
+                <UFormGroup label="Количество" name="count">
                     <UInput v-model="state.count" />
                 </UFormGroup>
                 <UFormGroup label="Ед.изм" name="name_object">
@@ -69,6 +75,7 @@
     </UModal>
 </template>
 <script setup lang="ts">
+import {colors, thickness } from '@/utils/colors'
 import { VueDadata } from 'vue-dadata';
 import 'vue-dadata/dist/style.css';
 import { object, string, date, number, type InferType } from 'yup';
@@ -92,12 +99,14 @@ const state = reactive({
     unit: undefined,
     material: undefined,
     count: undefined,
-    length: undefined
+    length: undefined,
+    thickness: undefined,
+    color: undefined
 });
 const columns = [{
-    key:'id',
-    label:"#"
-},{
+    key: 'id',
+    label: "#"
+}, {
     key: 'material',
     label: 'Наименование'
 },
@@ -118,27 +127,27 @@ const columns = [{
     label: 'Количество'
 },
 {
-    key:'total',
-    label:"Итого"
+    key: 'total',
+    label: "Итого"
 }]
 const customers = ref([])
 const bucket = ref([])
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-    orderStore.addOrder({ ...event.data, bucket: bucket.value,status:"Получен" })
+    orderStore.addOrder({ ...event.data, bucket: bucket.value, status: "Получен" })
     modal.close()
 }
 
 const addToBucket = () => {
     const data = {
-        id: bucket.value.length+1,
+        id: bucket.value.length + 1,
         material: state.material.label,
         unit: state.unit.label,
         count: state.count,
-        price:state.material.price,
-        thickness:state.material.thickness,
-        color:state.material.color,
-        total: Number(state.material.price)*Number(state.count)*(Number(state.length)/1000),
-        length:state.length
+        price: state.material.price,
+        thickness: state.material.thickness,
+        color: state.material.color,
+        total: Number(state.material.price) * Number(state.count) * (Number(state.length) / 1000),
+        length: state.length
     }
     console.log(data)
     bucket.value.push(data)

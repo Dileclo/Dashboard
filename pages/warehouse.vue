@@ -5,7 +5,7 @@
             </UButton>
         </template>
         <template #second>
-            <UInput v-model="q" placeholder="Поиск склада..." />
+            <UInput v-model="q" placeholder="Поиск материалов..." />
         </template>
     </Navbar>
     <UTable :loading="materialStore.loading" :columns="columns" :rows="filtredRows">
@@ -15,7 +15,6 @@
             </UDropdown>
         </template>
     </UTable>
-
 </template>
 <script setup lang="ts">
 import { ModalMaterial } from '#components';
@@ -33,11 +32,7 @@ const items = (row) => [
     }], [{
         label: 'Архив',
         icon: 'i-heroicons-archive-box-20-solid'
-    },], [{
-        label: 'Удалить',
-        icon: 'i-heroicons-trash-20-solid',
-        click: () => usersStore.deleteUser(row)
-    }]
+    },]
 ];
 const filtredRows = computed(() => {
     if (!q.value) {
@@ -60,20 +55,20 @@ const columns = [{
     label: 'Склад',
 },
 {
-    key:"thickness",
-    label:"Толщина"
+    key: "thickness",
+    label: "Толщина"
 },
 {
-    key:"color",
-    label:"Цвет"
+    key: "color",
+    label: "Цвет"
 },
 {
-    key:"length",
-    label:"Длина"
+    key: "length",
+    label: "Длина"
 },
 {
-    key:"weight",
-    label:"Вес"
+    key: "weight",
+    label: "Вес, т"
 },
 {
     key: 'actions'
