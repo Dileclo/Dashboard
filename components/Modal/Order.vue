@@ -35,9 +35,9 @@
                 <UDivider label="Добавление товара" size="sm" />
                 <UFormGroup label="Наименование" name="name_object">
                     <div class="flex gap-4">
-                        <USelectMenu :options="materialStore.materials" v-model="state.material" class="w-full"
-                            searchable />
-                        <UButton label="+" color="gray" @click="materialStore.isOpen = true" />
+                        <USelectMenu option-attribute="title" :options="nomenclatureStore.nomenclature"
+                            v-model="state.material" class="w-full" searchable />
+                        <UButton label="+" color="gray" @click="nomenclatureStore.isOpen = true" />
                     </div>
                 </UFormGroup>
                 <UFormGroup label="Цвет" name="color">
@@ -72,10 +72,11 @@
         <ModalCustomer v-model="customerStore.isOpen" />
         <IspDocUnitModal v-model="unitStore.isOpen" />
         <ModalMaterial v-model="materialStore.isOpen" />
+        <ModalNomenclature v-model="nomenclatureStore.isOpen" />
     </UModal>
 </template>
 <script setup lang="ts">
-import {colors, thickness } from '@/utils/colors'
+import { colors, thickness } from '@/utils/colors'
 import { VueDadata } from 'vue-dadata';
 import 'vue-dadata/dist/style.css';
 import { object, string, date, number, type InferType } from 'yup';
@@ -83,6 +84,7 @@ import type { FormSubmitEvent } from '#ui/types';
 const materialStore = useMaterialStore()
 const customerStore = useCustomerStore()
 const orderStore = useOrderStore()
+const nomenclatureStore = useNomenclatureStore()
 const unitStore = useUnitStore()
 const modal = useModal()
 const dayjs = useDayjs()
@@ -109,6 +111,10 @@ const columns = [{
 }, {
     key: 'material',
     label: 'Наименование'
+},
+{
+    key: 'color',
+    label: 'Цвет'
 },
 {
     key: 'length',
@@ -140,12 +146,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 const addToBucket = () => {
     const data = {
         id: bucket.value.length + 1,
-        material: state.material.label,
+        material: state.material.title,
         unit: state.unit.label,
         count: state.count,
         price: state.material.price,
         thickness: state.material.thickness,
-        color: state.material.color,
+        color: state.color,
         total: Number(state.material.price) * Number(state.count) * (Number(state.length) / 1000),
         length: state.length
     }
@@ -155,11 +161,13 @@ const addToBucket = () => {
     state.unit = undefined
     state.count = undefined
     state.length = undefined
+    state.color = undefined
 }
 
 onMounted(async () => {
     await materialStore.fetchMaterial()
     await unitStore.fetchUnit()
+    await nomenclatureStore.fetchNomenclature()
 })
 
 </script>

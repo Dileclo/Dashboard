@@ -13,4 +13,5 @@ const customer = MongoDBclient.db('testdb').collection('customer')
 const order = MongoDBclient.db('testdb').collection('order')
 const material = MongoDBclient.db('testdb').collection('material')
 const warehouse = MongoDBclient.db('testdb').collection('warehouse')
-export {MongoDBclient,users,attendanse,organization,objects,works,units,jobs,auth,customer,order,material,warehouse}
+const nomenclature = MongoDBclient.db('testdb').collection('nomenclature')
+export { MongoDBclient, users, attendanse, organization, objects, works, units, jobs, auth, customer, order, material, warehouse, nomenclature }
