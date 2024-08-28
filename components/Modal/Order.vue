@@ -102,7 +102,7 @@ const state = reactive({
     order_id: await orderStore.get_order_id() + 1,
     created_at: dayjs().format("DD MM YYYY HH:mm"),
     unit: undefined,
-    material: undefined,
+    material: {},
     count: undefined,
     length: undefined,
     thickness: undefined,
