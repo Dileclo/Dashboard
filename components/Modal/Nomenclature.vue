@@ -22,6 +22,9 @@
         <UFormGroup label="Цена" name="name">
           <UInput v-model="state.price" />
         </UFormGroup>
+        <UFormGroup label="Категория товара" name="type">
+          <USelectMenu searchable v-model="state.type" :options="nomenclatureStore.types"/>
+        </UFormGroup>
         <UButton type="submit">
           Добавить
         </UButton>
@@ -43,6 +46,7 @@ type Schema = InferType<typeof schema>;
 const state = reactive({
   title: undefined,
   price: undefined,
+  type: undefined,
   created_at: dayjs().format("DD MM YYYY HH:mm")
 });
 

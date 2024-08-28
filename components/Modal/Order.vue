@@ -40,15 +40,18 @@
                         <UButton label="+" color="gray" @click="nomenclatureStore.isOpen = true" />
                     </div>
                 </UFormGroup>
+
                 <UFormGroup label="Цвет" name="color">
                     <USelectMenu searchable v-model="state.color" :options="colors" />
                 </UFormGroup>
-                <UFormGroup label="Толщина" name="thickness">
-                    <USelectMenu searchable v-model="state.thickness" :options="thickness" />
-                </UFormGroup>
-                <UFormGroup label="Длина, мм" name="length">
-                    <UInput v-model="state.length" />
-                </UFormGroup>
+                <div v-if="state.material.type == 'Металлопрокат'">
+                    <UFormGroup label="Толщина" name="thickness">
+                        <USelectMenu searchable v-model="state.thickness" :options="thickness" />
+                    </UFormGroup>
+                    <UFormGroup label="Длина, мм" name="length">
+                        <UInput v-model="state.length" />
+                    </UFormGroup>
+                </div>
                 <UFormGroup label="Количество" name="count">
                     <UInput v-model="state.count" />
                 </UFormGroup>
