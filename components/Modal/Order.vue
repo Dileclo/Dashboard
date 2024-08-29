@@ -42,9 +42,9 @@
                 </UFormGroup>
 
                 <UFormGroup label="Цвет" name="color">
-                    <USelectMenu searchable v-model="state.color" :options="colors" />
+                    <USelectMenu searchable v-model="state.color" @change="getRemains" :options="colors" />
                 </UFormGroup>
-                <div v-if="state.material.type == 'Металлопрокат'">
+                <div v-show="state.material && state.material.type == 'Металлопрокат'">
                     <UFormGroup label="Толщина" name="thickness">
                         <USelectMenu searchable v-model="state.thickness" :options="thickness" />
                     </UFormGroup>
@@ -52,7 +52,7 @@
                         <UInput v-model="state.length" />
                     </UFormGroup>
                 </div>
-                <UFormGroup label="Количество" name="count">
+                <UFormGroup label="Количество" :description="'Остаток: '+state.remains" name="count">
                     <UInput v-model="state.count" />
                 </UFormGroup>
                 <UFormGroup label="Ед.изм" name="name_object">
@@ -106,7 +106,8 @@ const state = reactive({
     count: undefined,
     length: undefined,
     thickness: undefined,
-    color: undefined
+    color: undefined,
+    remains: ''
 });
 const columns = [{
     key: 'id',
@@ -147,17 +148,34 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 }
 
 const addToBucket = () => {
-    const data = {
-        id: bucket.value.length + 1,
-        material: state.material.title,
-        unit: state.unit.label,
-        count: state.count,
-        price: state.material.price,
-        thickness: state.material.thickness,
-        color: state.color,
-        total: Number(state.material.price) * Number(state.count) * (Number(state.length) / 1000),
-        length: state.length
+    let data
+    if (state.material.type == "Металлопрокат") {
+        data = {
+            id: bucket.value.length + 1,
+            material: state.material.title,
+            unit: state.unit.label,
+            count: state.count,
+            price: state.material.price,
+            thickness: state.material.thickness,
+            color: state.color,
+            total: Number(state.material.price) * Number(state.count) * (Number(state.length) / 1000),
+            length: state.length
+        }
     }
+    if (state.material.type == "Крепеж") {
+        data = {
+            id: bucket.value.length + 1,
+            material: state.material.title,
+            unit: state.unit.label,
+            count: state.count,
+            price: state.material.price,
+            thickness: state.material.thickness,
+            color: state.color,
+            total: Number(state.material.price) * Number(state.count),
+            length: state.length
+        }
+    }
+
     console.log(data)
     bucket.value.push(data)
     state.material = undefined
@@ -165,6 +183,13 @@ const addToBucket = () => {
     state.count = undefined
     state.length = undefined
     state.color = undefined
+}
+
+const getRemains = async () => {
+    const rem = await orderStore.getRemains(state.material.title,state.color)
+    const res = await rem.json()
+    console.log(res)
+    state.remains = res.o
 }
 
 onMounted(async () => {
