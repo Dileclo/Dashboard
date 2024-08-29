@@ -57,8 +57,8 @@ export const useOrderStore = defineStore('order', () => {
         await fetchOrder()
     }
 
-    const getRemains = async (title,color)=>{
-        const res = await fetch('/api/order/getRemains', { method: 'POST', body: JSON.stringify({title,color}) })
+    const getRemains = async (title,color,thickness,type)=>{
+        const res = await fetch('/api/order/getRemains', { method: 'POST', body: JSON.stringify({ title, color, thickness,type }) })
         return res
     }
 

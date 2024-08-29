@@ -46,13 +46,13 @@
                 </UFormGroup>
                 <div v-show="state.material && state.material.type == 'Металлопрокат'">
                     <UFormGroup label="Толщина" name="thickness">
-                        <USelectMenu searchable v-model="state.thickness" :options="thickness" />
+                        <USelectMenu searchable @change="getRemains" v-model="state.thickness" :options="thickness" />
                     </UFormGroup>
                     <UFormGroup label="Длина, мм" name="length">
                         <UInput v-model="state.length" />
                     </UFormGroup>
                 </div>
-                <UFormGroup label="Количество" :description="'Остаток: '+state.remains" name="count">
+                <UFormGroup label="Количество" :description="'Остаток на складе: ' + state.remains" name="count">
                     <UInput v-model="state.count" />
                 </UFormGroup>
                 <UFormGroup label="Ед.изм" name="name_object">
@@ -186,7 +186,12 @@ const addToBucket = () => {
 }
 
 const getRemains = async () => {
-    const rem = await orderStore.getRemains(state.material.title,state.color)
+    let rem
+    if (state.material.type == "Металлопрокат") {
+        rem = await orderStore.getRemains(state.material.title, state.color, state.material.thickness, state.material.type)
+    } else {
+        rem = await orderStore.getRemains(state.material.title, state.color, state.material.thickness, state.material.type)
+    }
     const res = await rem.json()
     console.log(res)
     state.remains = res.o
