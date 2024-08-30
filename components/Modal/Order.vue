@@ -35,7 +35,7 @@
                 <UDivider label="Добавление товара" size="sm" />
                 <UFormGroup label="Наименование" name="name_object">
                     <div class="flex gap-4">
-                        <USelectMenu option-attribute="title" :options="nomenclatureStore.nomenclature"
+                        <USelectMenu option-attribute="title" @change="getRemains" :options="nomenclatureStore.nomenclature"
                             v-model="state.material" class="w-full" searchable />
                         <UButton label="+" color="gray" @click="nomenclatureStore.isOpen = true" />
                     </div>
@@ -52,7 +52,7 @@
                         <UInput v-model="state.length" />
                     </UFormGroup>
                 </div>
-                <UFormGroup label="Количество" :description="'Остаток на складе: ' + state.remains" name="count">
+                <UFormGroup label="Количество" :description="state.remains_string" name="count">
                     <UInput v-model="state.count" />
                 </UFormGroup>
                 <UFormGroup label="Ед.изм" name="name_object">
@@ -107,7 +107,8 @@ const state = reactive({
     length: undefined,
     thickness: undefined,
     color: undefined,
-    remains: ''
+    remains: '',
+    remains_string: ''
 });
 const columns = [{
     key: 'id',
@@ -186,15 +187,22 @@ const addToBucket = () => {
 }
 
 const getRemains = async () => {
-    let rem
+    let rem, res
     if (state.material.type == "Металлопрокат") {
-        rem = await orderStore.getRemains(state.material.title, state.color, state.material.thickness, state.material.type)
+        rem = await orderStore.getRemains(state.material.title, state.color, state.thickness, state.material.type)
+        res = await rem.json()
+        state.remains = res.o
+        state.remains_string = "Остаток на складе: " + state.remains + " мп."
+
+
     } else {
-        rem = await orderStore.getRemains(state.material.title, state.color, state.material.thickness, state.material.type)
+        rem = await orderStore.getRemains(state.material.title, state.color, state.thickness, state.material.type)
+        res = await rem.json()
+        state.remains = res.o
+        state.remains_string = "Остаток на складе: " + state.remains + " шт."
+
     }
-    const res = await rem.json()
     console.log(res)
-    state.remains = res.o
 }
 
 onMounted(async () => {

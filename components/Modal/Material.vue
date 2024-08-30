@@ -37,10 +37,10 @@
 
                 <div class="flex justify-between w-full gap-4">
                     <UFormGroup label="Цвет RAL" class="w-full" name="color">
-                        <UInput v-model="state.color" />
+                        <USelectMenu searchable  v-model="state.color" :options="colors" />
                     </UFormGroup>
                     <UFormGroup label="Толщина" class="w-full" name="thickness">
-                        <UInput type="number" v-model="state.thickness" />
+                        <USelectMenu searchable v-model="state.thickness" :options="thickness" />
                     </UFormGroup>
                 </div>
                 <div class="flex justify-between w-full gap-4">
@@ -70,6 +70,7 @@
     </UModal>
 </template>
 <script setup lang="ts">
+import { colors, thickness } from '@/utils/colors'
 import { object, string, date, number, type InferType } from 'yup';
 import type { FormSubmitEvent } from '#ui/types';
 const modal = useModal()
