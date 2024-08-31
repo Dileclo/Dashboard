@@ -160,7 +160,8 @@ const addToBucket = () => {
             thickness: state.material.thickness,
             color: state.color,
             total: Number(state.material.price) * Number(state.count) * (Number(state.length) / 1000),
-            length: state.length
+            length: state.length,
+            type: state.material.type
         }
     }
     if (state.material.type == "Крепеж") {
@@ -173,7 +174,8 @@ const addToBucket = () => {
             thickness: state.material.thickness,
             color: state.color,
             total: Number(state.material.price) * Number(state.count),
-            length: state.length
+            length: state.length,
+            type: state.material.type
         }
     }
 
